@@ -34,7 +34,7 @@ const dojoinGroup = async () => {
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     document.getElementById("joinButton").addEventListener("click",async ()=>{
-        await doLogin();
+        await dojoinGroup();
     })
 })
 

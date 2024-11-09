@@ -32,6 +32,11 @@ const doLogin = async () => {
 }
 
 document.addEventListener("DOMContentLoaded",async ()=>{
+
+    if(localStorage.getItem("accessToken") != null) {
+        window.location.replace("/")
+    }
+
     document.getElementById("loginButton").addEventListener("click",async ()=>{
         await doLogin();
     })
