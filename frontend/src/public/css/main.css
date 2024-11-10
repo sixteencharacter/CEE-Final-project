@@ -1,0 +1,227 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+  }
+  .submits
+  {
+    padding-top: 30px;
+  }
+  .submit{
+    background-color: #333;
+    color: #f1f1f1;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  
+  .tab {
+    background-color: #333;
+    color: #f1f1f1;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .tab.active {
+    background-color: #555;
+  }
+  
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .schedule-table th, .schedule-table td {
+    padding: 12px;
+    border: 1px solid #444;
+    text-align: left;
+  }
+  
+  .schedule-table th {
+    background-color: #333;
+    color: #f1f1f1;
+  }
+  
+  .schedule-table tr:nth-child(even) {
+    background-color: #2a2a2a;
+  }
+  
+  .tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  .announce {
+    background-color: #8e44ad;
+  }
+  
+  .business {
+    background-color: #27ae60;
+  }
+  
+  .test {
+    background-color: #e67e22;
+  }
+  
+  .status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .status.done {
+    background-color: #2ecc71;
+  }
+  
+  .status.not-started {
+    background-color: #e74c3c;
+  }
+  
+  .status.in-progress {
+    background-color: #f39c12;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    background-color: #333;
+    color: #f1f1f1;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content label {
+    display: block;
+    color: #f1f1f1;
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content label input {
+    margin-right: 8px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown-content label:hover {
+    background-color: #555;
+  }
+  .image-upload {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .image-upload label {
+    font-size: 16px;
+    color: #f1f1f1;
+  }
+  
+  .image-upload input[type="file"] {
+    margin-top: 10px;
+    padding: 5px;
+    color: #f1f1f1;
+  }
+  
+  .image-display {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .image-display img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  input[type="text"] {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border: 1px solid #444; /* Dark border */
+    padding: 7px; /* Padding inside the input field */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 16px; /* Font size for text */
+  }
+  
+  input[type="text"]::placeholder {
+    color: #bbb; /* Light gray color for placeholder text */
+  }
+  #add-date input[type="date"] {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border: 1px solid #444; /* Dark border */
+    padding: 8px; /* Padding inside the input field */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size for text */
+    appearance: none; /* Remove default styling */
+  }
+  
+  #add-date input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts the color of the calendar icon */
+  }
+  
+  #add-date input[type="date"]::placeholder {
+    color: #bbb; /* Light gray color for placeholder text */
+  }
+  

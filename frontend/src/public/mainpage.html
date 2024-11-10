@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Schedule</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔥 study schedule</h1>
+      <div class="tabs">
+        <button class="tab">📅 Calendar</button>
+        <button class="tab active">📋 Assignments</button>
+      </div>
+    </div>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>📄 Lecture/Assignment</th>
+          <th>📅 Date</th>
+          <th>⏲️ Due Date</th>
+          <th>⏳ Start Date</th>
+          <th>📝 Assignment</th>
+          <th>⭐ Progress</th>
+          <th>📘 Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="add-title"><input type="text"></td>
+          <td id="add-date"><input type="date" name="bday" /></td>
+          <td id="add-due-date">-169 day(s)</td>
+          <td id="add-start-date">-169 day(s)</td>
+          <td>
+            <select id="name-to-add">
+                <option value="0">-- เลือกผู้ฝากซื้อ --</option>
+                <!-- To be populated by JS -->
+              </select>
+          </td>
+          <td><span class="status done">done</span></td>
+          <td><input type="text"></td>
+          
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="header">
+        
+        <div class="submits">
+          <button class="submit" id="Add_todo">Add</button>
+        </div>
+      </div>
+    
+  </div>
+</body>
+</html>
