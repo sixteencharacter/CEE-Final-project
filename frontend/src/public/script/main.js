@@ -18,9 +18,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         window.location.replace("/group_select.html")
     }
 
-    document.getElementById("Add_todo").addEventListener("click",()=>{
-        //doLogout();
-    })
+    
 
     document.getElementById("logoutBtn").addEventListener("click",()=>{
         doLogout();

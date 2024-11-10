@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>🔥 study schedule</h1>
+      <h1>🔥 Study Schedule</h1>
       <div class="tabs">
         <button class="tab">📅 Calendar</button>
         <button class="tab active">📋 Assignments</button>
@@ -28,32 +28,33 @@
           <th>📘 Description</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="main-table-body"></tbody>
+      <tfoot>
         <tr>
           <td id="add-title"><input type="text"></td>
           <td id="add-date"><input type="date" name="bday" /></td>
-          <td id="add-due-date">-169 day(s)</td>
-          <td id="add-start-date">-169 day(s)</td>
+          <td id="add-due-date"><input type="date" name="bday" /></td>
+          <td id="add-start-date"><input type="date" name="bday" /></td>
           <td>
             <select id="name-to-add">
-                <option value="0">-- เลือกผู้ฝากซื้อ --</option>
-                <!-- To be populated by JS -->
-              </select>
+              <option value="0">-- เลือกผู้ฝากซื้อ --</option>
+            </select>
           </td>
-          <td><span class="status done">done</span></td>
-          <td><input type="text"></td>
-          
+          <td><span class="status"><select name="" id="status">
+            <option value="scheduled">ยังไม่เริ่ม</option>
+            <option value="in_progress">กำลังนะ</option>
+            <option value="completed">จบแล้ว</option>
+          </select></span></td>
+          <td id="add-description"><input type="text"></td>
         </tr>
-
-      </tbody>
+      </tfoot>
     </table>
     <div class="header">
-        
-        <div class="submits">
-          <button class="submit" id="Add_todo">Add</button>
-        </div>
+      <div class="submits">
+        <button class="submit" id="Add_todo">Add</button>
       </div>
-    
+    </div>
   </div>
+  <script type="module" src="/script/table.js"></script>
 </body>
 </html>
