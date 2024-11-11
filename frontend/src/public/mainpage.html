@@ -23,7 +23,7 @@
           <th>📅 Date</th>
           <th>⏲️ Due Date</th>
           <th>⏳ Start Date</th>
-          <th>📝 Assignment</th>
+          <th>📝 Tags</th>
           <th>⭐ Progress</th>
           <th>📘 Description</th>
         </tr>
@@ -33,13 +33,19 @@
         <tr>
           <td id="add-title"><input type="text"></td>
           <td id="add-date"><input type="date" name="bday" /></td>
-          <td id="add-due-date"><input type="date" name="bday" /></td>
+          <td id="add-due-date"></td>
           <td id="add-start-date"><input type="date" name="bday" /></td>
+
           <td>
-            <select id="name-to-add">
-              <option value="0">-- เลือกผู้ฝากซื้อ --</option>
-            </select>
+            <div id="tag-container">
+              <!-- Selected tags will be shown here -->
+              <input type="text" id="tag-input" placeholder="Add or select tags" autocomplete="off">
+            </div>
+            <div id="tag-list" class="dropdown">
+              <!-- Dropdown with tag suggestions -->
+            </div>
           </td>
+          
           <td><span class="status"><select name="" id="status">
             <option value="scheduled">ยังไม่เริ่ม</option>
             <option value="in_progress">กำลังนะ</option>
