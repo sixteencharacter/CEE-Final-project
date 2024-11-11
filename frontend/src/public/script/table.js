@@ -43,22 +43,70 @@ function addRowToTable(item) {
       renderTagsWithDropdown(cell, item._id, item.tags);
     }
     else if(field == "date"){
-      // console.log(item["title"]);
-      console.log(item["dueDate"]);
+      // console.log(item["dueDate"]);
       var text = convertDateToISO(item["dueDate"]);
-      // console.log(text);
-      
       cell.innerText = calculateDaysUntil(text);
+      
+    }
+    else if(field === "dueDate" || field === "startDate"){
+      cell.innerText = item[field] || "";
+      makeDateEditable(cell, item._id, field,item[field]);
+      
     }
     else if (field === "status") {
       renderStatusDropdown(cell, item._id, item.status);
     }
-     else {
+    else {
       cell.innerText = item[field] || ""; // Default to empty if null
+      cell.addEventListener("blur", () => handleEdit(item._id, field, cell.innerText));
     }
 
-    cell.addEventListener("blur", () => handleEdit(item._id, field, cell.innerText));
+    
   });
+}
+
+function makeDateEditable(cell, itemId, field,text) {
+  // Save the original date in case no change is made
+  const originalDate = text;
+  
+  // Create a date input element pre-filled with the current date
+  
+
+  function showDateInput() {
+    // Create a date input element
+    const dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.value = convertDateToISO(originalDate); // Set value in ISO format
+
+    // Function to save the new date or revert if unchanged
+    async function saveDateChange() {
+      const newDate = dateInput.value;
+      console.log(formatDate(newDate));
+      if (newDate) {
+        cell.innerText = formatDate(newDate); // Update display in DD/MM/YYYY format
+        await handleEdit(itemId, field, formatDate(newDate)); // Save updated date to server
+      } else {
+        cell.innerText = originalDateText; // Revert if no new date selected
+      }
+      cell.addEventListener("click", showDateInput); // Re-enable click after editing
+    }
+
+    // Event listeners to save the date change and revert to text on blur
+    // dateInput.addEventListener("blur", saveDateChange);
+    dateInput.addEventListener("change", saveDateChange);
+
+    // Replace cell content with date input and focus on it
+    cell.innerText = "";
+    cell.appendChild(dateInput);
+    dateInput.focus();
+
+    // Remove the click event to prevent multiple listeners
+    cell.removeEventListener("click", showDateInput);
+  }
+
+  // Attach the showDateInput function as the click event handler
+  cell.addEventListener("click", showDateInput);
+  
 }
 
 function renderTagsWithDropdown(cell, itemId, tags) {
@@ -206,6 +254,7 @@ function calculateDaysUntil(dateString) {
 
 ///////////////////////////////////////////////////////////////////////การแก้ไขข้อมูล////////////////////////////////////////
 async function handleEdit(id, field, value) {
+  console.log()
   const raw = JSON.stringify({ [field]: value });
 
   const requestOptions = {
@@ -258,7 +307,7 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
     const response = await fetch("http://localhost:3222/todo", requestOptions);
     if (response.ok) {
       const result = await response.json();
-      await addRowToTable(result);
+      addRowToTable(result);
       clearInputFields();
     } else {
       console.error("Failed to post data:", response.statusText);
