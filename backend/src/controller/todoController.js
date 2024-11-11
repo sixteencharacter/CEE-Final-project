@@ -4,7 +4,6 @@ import { AsianTimeParse, dateSimplifier } from "../utils/datetime.js";
 import { getGroupId, isAllConfigured } from "../utils/authorization.js";
 
 export const getAnFilter = async (req, res) => {
-
     if (!(await isAllConfigured(req))) {
         res.status(503).send({ success: false, reason: "Unauthorized" });
         return;
@@ -14,12 +13,24 @@ export const getAnFilter = async (req, res) => {
         const filter = {};
         if (req.query.title) filter.title = { $regex: ".*" + req.query.title + ".*" };
         if (req.query.status) filter.status = req.query.status;
-        if (req.query.dueDate) filter.dueDate = new Date(req.query.dueDate);
-        if (req.query.startDate) filter.startDate = new Date(req.query.startDate);
-        if (req.query.tags) filter.tags = { $in: req.query.tags.split(",") };
+        
+        // Modify dueDate and startDate to accept ranges
+        if (req.query.dueDateStart || req.query.dueDateEnd) {
+            filter.dueDate = {};
+            if (req.query.dueDateStart) filter.dueDate.$gte = AsianTimeParse(req.query.dueDateStart);
+            if (req.query.dueDateEnd) filter.dueDate.$lte = AsianTimeParse(req.query.dueDateEnd);
+        }
+
+        if (req.query.startDateStart || req.query.startDateEnd) {
+            filter.startDate = {};
+            if (req.query.startDateStart) filter.startDate.$gte = AsianTimeParse(req.query.startDateStart);
+            if (req.query.startDateEnd) filter.startDate.$lte = AsianTimeParse(req.query.startDateEnd);
+        }
+
+        if (req.query.tags) filter.tags = { $all: req.query.tags.split(",") };
 
         // Fetch filtered or all todos
-        const todos = await Todo.find({...filter,group : {_id : getGroupId(req)}});
+        const todos = await Todo.find({ ...filter, group: { _id: getGroupId(req) } });
         res.status(200).json(dateSimplifier(todos));
     } catch (error) {
         res.status(500).json({ success: false, reason: error.message });
