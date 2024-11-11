@@ -136,7 +136,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "672f3d6390154d4387cecbdc",
+											"value": "6731a863d5e427a589aac80c",
 											"description": "(Required) ID of the todo to retrieve"
 										}
 									]
@@ -255,7 +255,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"title\": \"งานทดสอบที่ทำมานานมาก แต่แก้ไขแล้ว และอยู่ในกลุ่มที่onseasd หก\"\n}",
+									"raw": "{\n  \"title\": \"งานทดสอบที่ทำมานานมาก แต่แก้ไขแล้ว และอยู่ในกลุ่มที่onseasd หก\",\n  \"dueDate\" : \"28/02/2003\",\n  \"startDate\" : \"29/04/2005\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -275,7 +275,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "672f3da6ed6554095a32459f",
+											"value": "6731a863d5e427a589aac80c",
 											"description": "(Required) ID of the todo to update"
 										}
 									]
@@ -439,7 +439,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "672f3d6390154d4387cecbdc",
+											"value": "6731a863d5e427a589aac80c",
 											"description": "(Required) ID of the todo to delete"
 										}
 									]
@@ -545,7 +545,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{BACKEND_URL}}/todo",
+							"raw": "{{BACKEND_URL}}/todo?tags=ทดสอบ,เรื่อยๆ",
 							"host": [
 								"{{BACKEND_URL}}"
 							],
@@ -555,27 +555,38 @@
 							"query": [
 								{
 									"key": "status",
-									"value": "",
+									"value": "scheduled",
 									"description": "Filter todos by status",
 									"disabled": true
 								},
 								{
-									"key": "dueDate",
-									"value": "",
-									"description": "Filter todos by due date",
+									"key": "dueDateStart",
+									"value": "01/01/2024",
+									"description": "Filter todos by due date (ST)",
 									"disabled": true
 								},
 								{
-									"key": "startDate",
-									"value": "",
-									"description": "Filter todos by start date",
+									"key": "dueDateEnd",
+									"value": "01/01/2023",
+									"description": "Filter todos by due date (ED)",
+									"disabled": true
+								},
+								{
+									"key": "startDateStart",
+									"value": "01/01/2024",
+									"description": "Filter todos by start date (ST)",
+									"disabled": true
+								},
+								{
+									"key": "startDateEnd",
+									"value": null,
+									"description": "Filter todos by start date (ED)",
 									"disabled": true
 								},
 								{
 									"key": "tags",
-									"value": "",
-									"description": "Filter todos by tags (comma-separated list)",
-									"disabled": true
+									"value": "ทดสอบ,เรื่อยๆ",
+									"description": "Filter todos by tags (comma-separated list)"
 								},
 								{
 									"key": "title",
@@ -713,7 +724,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"งานทดสอบ แต่อยู่ในกลุ่มที่หนึ่ง\",\n  \"description\": \"งานทดสอบที่ทำมานานมาก คาดว่าไม่น่าจะเสร็จ\",\n  \"dueDate\": \"10/08/3000\",\n  \"startDate\": \"05/08/1975\",\n  \"tags\": [\n    \"ทดสอบ\",\n    \"เรื่อย ๆ\"\n  ],\n  \"status\": \"in_progress\", // Enum [\"in_progress\" , \"completed\" , \"scheduled\"]\n  \"group\": \"672f397089c8790e802f4188\"\n}",
+							"raw": "{\n  \"title\": \"งานทดสอบ แต่อยู่ในกลุ่มที่หนึ่ง\",\n  \"description\": \"งานทดสอบที่ทำมานานมาก คาดว่าไม่น่าจะเสร็จ\",\n  \"dueDate\": \"21/08/2024\",\n  \"startDate\": \"29/03/2000\",\n  \"tags\": [\n    \"ทดสอบ\"\n  ],\n  \"status\": \"in_progress\", // Enum [\"in_progress\" , \"completed\" , \"scheduled\"]\n  \"group\": \"672f397089c8790e802f4188\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
