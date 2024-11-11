@@ -60,40 +60,44 @@ function addRowToTable(item) {
       cell.innerText = item[field] || ""; // Default to empty if null
       cell.addEventListener("blur", () => handleEdit(item._id, field, cell.innerText));
     }
-
+    addEventListener("event name",(event)=>{})
     
   });
 }
 
-function makeDateEditable(cell, itemId, field,text) {
+function makeDateEditable(cell, itemId, field, text) {
   // Save the original date in case no change is made
   const originalDate = text;
-  
-  // Create a date input element pre-filled with the current date
-  
 
-  function showDateInput() {
+  function showDateInput(event) {
     // Create a date input element
     const dateInput = document.createElement("input");
     dateInput.type = "date";
     dateInput.value = convertDateToISO(originalDate); // Set value in ISO format
 
     // Function to save the new date or revert if unchanged
-    async function saveDateChange() {
+    async function saveDateChange(parentNode) {
       const newDate = dateInput.value;
-      console.log(formatDate(newDate));
+
       if (newDate) {
         cell.innerText = formatDate(newDate); // Update display in DD/MM/YYYY format
         await handleEdit(itemId, field, formatDate(newDate)); // Save updated date to server
+        if(field == "dueDate"){
+            parentNode.children[2].innerHTML = calculateDaysUntil(newDate);
+        }
+        
       } else {
-        cell.innerText = originalDateText; // Revert if no new date selected
+        cell.innerText = originalDate; // Revert if no new date selected
       }
+      
       cell.addEventListener("click", showDateInput); // Re-enable click after editing
     }
 
-    // Event listeners to save the date change and revert to text on blur
-    // dateInput.addEventListener("blur", saveDateChange);
-    dateInput.addEventListener("change", saveDateChange);
+    // Get parent node
+    const parentNode = event.target.parentNode;
+
+    // Attach event listener for date change without calling the function immediately
+    dateInput.addEventListener("change", () => saveDateChange(parentNode));
 
     // Replace cell content with date input and focus on it
     cell.innerText = "";
@@ -106,9 +110,7 @@ function makeDateEditable(cell, itemId, field,text) {
 
   // Attach the showDateInput function as the click event handler
   cell.addEventListener("click", showDateInput);
-  
 }
-
 function renderTagsWithDropdown(cell, itemId, tags) {
   if (!itemId) {
     console.error("Invalid itemId:", itemId);
