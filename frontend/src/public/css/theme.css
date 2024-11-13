@@ -7,7 +7,7 @@
 }
 
 body {
-    display: flex;
+    
     align-items: center;
     justify-content: center;
     min-height: 100vh;
@@ -27,7 +27,7 @@ body {
 }
 
 .logo img {
-    width: 150px; /* Increased size for a larger logo */
+    width: 200px; /* Increased size for a larger logo */
     margin-bottom: 20px;
 }
 
@@ -79,9 +79,9 @@ button:hover {
 
 /* Footer Links */
 .footer {
-    margin-top: 20px;
+    margin-top: 0px;
     font-size: 0.9rem;
-    color: #7a5e4b; /* Muted brown for footer text */
+    color: #000000; /* Muted brown for footer text */
 }
 
 .footer a {
@@ -126,16 +126,3 @@ button:hover {
 }
 
 /* Apply the animation to the login container */
-.login-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #fffaf3;
-    text-align: center;
-    
-    /* Animation properties */
-    opacity: 0; /* Start hidden */
-    animation: fade-in 0.8s ease-out forwards; /* Fade-in effect */
-}
