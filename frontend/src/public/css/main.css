@@ -11,8 +11,123 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    justify-items:center;
+    align-items: center;
+    
     padding: 20px;
+    
   }
+  /* Login Container */
+.login-container {
+  width: 100%;
+  max-width: 400px; /* Constrains width on larger screens */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fffaf3; /* Light, warm cream color */
+  text-align: center;
+}
+
+.logo img {
+  width: 200px; /* Increased size for a larger logo */
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #6b4f39; /* Darker latte brown for text */
+  margin-bottom: 1rem;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 12px;
+  border: 1px solid #d0bfa5; /* Light brown border */
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fbf3e9; /* Soft latte background */
+}
+
+input[type="email"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #b09074; /* Darker brown when focused */
+}
+
+/* Button */
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #b09074; /* Rich, warm brown color */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #8c6d52; /* Slightly darker shade on hover */
+}
+
+/* Footer Links */
+.footer {
+  margin-top: 0px;
+  font-size: 0.9rem;
+  color: #000000; /* Muted brown for footer text */
+}
+
+.footer a {
+  color: #a5795a; /* Lighter latte accent color */
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design: Adjustments for smaller screens */
+@media (max-width: 600px) {
+  .login-container {
+      padding: 20px; /* Reduce padding for smaller screens */
+  }
+
+  h2 {
+      font-size: 1.25rem; /* Slightly smaller heading */
+  }
+
+  .logo img {
+      width: 100px; /* Scale down logo size for smaller screens */
+  }
+
+  button {
+      padding: 10px; /* Reduce padding on the button */
+      font-size: 0.9rem; /* Slightly smaller font on button */
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fade-in {
+  from {
+      opacity: 0;
+      transform: translateY(20px); /* Slight upward shift for a smoother effect */
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Apply the animation to the login container */
 
   
   
@@ -100,24 +215,16 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 14px;
-    color: #fff;
+    color: #000000;
   }
   
-  .announce {
-    background-color: #8e44ad;
-  }
   
-  .business {
-    background-color: #27ae60;
-  }
-  
-  .test {
-    background-color: #e67e22;
-  }
   
   #status {
-    color: white; /* สีตัวหนังสือภายใน select */
-    background-color: gray; /* สีพื้นหลังของ select */
+    color: rgb(0, 0, 0); /* สีตัวหนังสือภายใน select */
+    background-color: rgb(255, 255, 255); /* สีพื้นหลังของ select */
+    padding: 8px;
+    border-radius: 5px;
 }
 
 /* สไตล์เฉพาะสำหรับแต่ละตัวเลือก */
@@ -222,20 +329,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   input[type="text"] {
-    background-color: #000; /* Black background */
-    color: #fff; /* White text */
+    background-color: #ffffff; /* Black background */
+    color: #000000; /* White text */
     border: 1px solid #444; /* Dark border */
-    padding: 7px; /* Padding inside the input field */
-    border-radius: 10px; /* Rounded corners */
+    padding: 8px; /* Padding inside the input field */
+    border-radius: 5px; /* Rounded corners */
     font-size: 16px; /* Font size for text */
   }
   
   input[type="text"]::placeholder {
     color: #bbb; /* Light gray color for placeholder text */
   }
-  #add-date input[type="date"] {
-    background-color: #000; /* Black background */
-    color: #fff; /* White text */
+  input[type="date"] {
+    background-color: #ffffff; /* Black background */
+    color: #000000; /* White text */
     border: 1px solid #444; /* Dark border */
     padding: 8px; /* Padding inside the input field */
     border-radius: 4px; /* Rounded corners */
@@ -243,12 +350,16 @@
     appearance: none; /* Remove default styling */
   }
   
-  #add-date input[type="date"]::-webkit-calendar-picker-indicator {
+  input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1); /* Inverts the color of the calendar icon */
   }
   
-  #add-date input[type="date"]::placeholder {
+  input[type="date"]::placeholder {
     color: #bbb; /* Light gray color for placeholder text */
+  }
+  textarea{
+    border-radius: 5px;
+    padding: 5px;
   }
   
 
@@ -256,15 +367,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    border: 1px solid #ccc;
-    padding: 5px;
+    border: 1px solid #646464;
+    padding: 0px;
     border-radius: 5px;
+    color: #000;
     
   }
   
   .tag {
-    background-color: #ff3a3a;
-    padding: 5px;
+    background-color: #d3ffc1;
+    padding: 8px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -303,3 +415,4 @@
   .tag-item:hover {
     background-color: #f0f0f0;
   }
+  

@@ -286,7 +286,7 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
   const startDate = document.querySelector("#add-start-date input[type='date']").value;
   const tags = Array.from(document.querySelectorAll("#tag-container .tag")).map(tag => tag.innerText); // Collect all tags
   const status = document.getElementById("status").value;
-  const description = document.getElementById("add-description").querySelector("input").value;
+  const description = document.getElementById("add-description").querySelector("textarea").value;
 
   const raw = JSON.stringify({
     title,
