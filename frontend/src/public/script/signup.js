@@ -1,4 +1,5 @@
 import { BACKEND_URL } from "./config.js";
+import { closeModal, displayAlertModal } from "./modal.js";
 
 const doRegister = async () => {
     const myHeaders = new Headers();
@@ -9,7 +10,7 @@ const doRegister = async () => {
     const re_password = document.getElementsByName("re_password")[0].value
     
     if(password != re_password) {
-        alert("Two set of password didn't match")
+        displayAlertModal("Error","UnExpected Error occurred , please try again later");
         return;
     }
     
@@ -31,18 +32,30 @@ const doRegister = async () => {
             window.location.replace("/");
         }
         else {
-            alert("Error : " + (await ret.json()).reason);
+            displayAlertModal("Error",(await ret.json()).reason);
         }
     }
     catch {
-        alert("UnExpected Error occurred , please try again later");
+        displayAlertModal("Error","UnExpected Error occurred , please try again later");
     }
 }
 
 document.addEventListener("DOMContentLoaded",async ()=>{
+    
     document.getElementById("registerButton").addEventListener("click",async ()=>{
         await doRegister();
     })
+
+    closeModal();
+
+    document.getElementsByClassName("close-btn")[0].addEventListener("click",()=>{
+        closeModal();
+    })
+
+    document.getElementsByClassName("close-modal")[0].addEventListener("click",()=>{
+        closeModal();
+    })
+
 })
 
 

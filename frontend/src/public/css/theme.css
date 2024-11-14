@@ -1,0 +1,210 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4ebe6; /* Light beige background */
+  padding: 20px;
+}
+
+/* Login Container */
+.login-container {
+  width: 100%;
+  max-width: 400px; /* Constrains width on larger screens */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fffaf3; /* Light, warm cream color */
+  text-align: center;
+}
+
+.logo img {
+  width: 120px; /* Increased size for a larger logo */
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #6b4f39; /* Darker latte brown for text */
+  margin-bottom: 1rem;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 12px;
+  border: 1px solid #d0bfa5; /* Light brown border */
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fbf3e9; /* Soft latte background */
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #b09074; /* Darker brown when focused */
+}
+
+/* Button */
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #b09074; /* Rich, warm brown color */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #8c6d52; /* Slightly darker shade on hover */
+}
+
+/* Footer Links */
+.footer {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #7a5e4b; /* Muted brown for footer text */
+}
+
+.footer a {
+  color: #a5795a; /* Lighter latte accent color */
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design: Adjustments for smaller screens */
+@media (max-width: 600px) {
+  .login-container {
+      padding: 20px; /* Reduce padding for smaller screens */
+  }
+
+  h2 {
+      font-size: 1.25rem; /* Slightly smaller heading */
+  }
+
+  .logo img {
+      width: 100px; /* Scale down logo size for smaller screens */
+  }
+
+  button {
+      padding: 10px; /* Reduce padding on the button */
+      font-size: 0.9rem; /* Slightly smaller font on button */
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fade-in {
+  from {
+      opacity: 0;
+      transform: translateY(20px); /* Slight upward shift for a smoother effect */
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Apply the animation to the login container */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fffaf3;
+  text-align: center;
+  
+  /* Animation properties */
+  opacity: 0; /* Start hidden */
+  animation: fade-in 0.8s ease-out forwards; /* Fade-in effect */
+}
+
+/* Other CSS for styling */
+
+.display-none {
+  display: none !important;
+}
+
+/* Modal Background Overlay */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  /* Flexbox for centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+  display : flex;
+  position: relative;
+  margin: 15% auto; /* Center the modal vertically */
+  padding: 20px;
+  width: 80%;
+  height: 15rem;
+  max-width: 400px;
+  background-color: #fffaf3; /* Light background */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fade-in 0.5s ease-out; /* Fade-in effect */
+}
+
+.modal-inner {
+  display : flex;
+  flex : 1;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #555;
+}
+
+/* Fade-in animation */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Fade-in animation */
+@keyframes fade-out {
+  from { opacity: 1; display: flex;}
+  to { opacity: 0; display: none;}
+}

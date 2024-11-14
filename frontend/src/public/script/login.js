@@ -1,4 +1,5 @@
 import { BACKEND_URL } from "./config.js";
+import { closeModal, displayAlertModal } from "./modal.js";
 
 const doLogin = async () => {
     const myHeaders = new Headers();
@@ -23,11 +24,11 @@ const doLogin = async () => {
             window.location.replace("/group_select.html");
         }
         else {
-            alert("Error : " + (await ret.json()).reason);
+            displayAlertModal("Error",(await ret.json()).reason);
         }
     }
     catch {
-        alert("Wrong password, please try again");
+        displayAlertModal("Error","Wrong password , please try again");
     }
 }
 
@@ -40,5 +41,16 @@ document.addEventListener("DOMContentLoaded",async ()=>{
     document.getElementById("loginButton").addEventListener("click",async ()=>{
         await doLogin();
     })
+
+    closeModal();
+
+    document.getElementsByClassName("close-btn")[0].addEventListener("click",()=>{
+        closeModal();
+    })
+
+    document.getElementsByClassName("close-modal")[0].addEventListener("click",()=>{
+        closeModal();
+    })
+
 })
 

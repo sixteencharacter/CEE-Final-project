@@ -1,4 +1,5 @@
 import { BACKEND_URL } from "./config.js";
+import { closeModal, displayAlertModal } from "./modal.js";
 
 const dojoinGroup = async () => {
     const myHeaders = new Headers();
@@ -24,17 +25,27 @@ const dojoinGroup = async () => {
             window.location.replace("/");
         }
         else {
-            alert("Error : " + (await ret.json()).reason);
+            displayAlertModal("Error",(await ret.json()).reason);
         }
     }
     catch {
-        alert("Unexpected Error occurred, please try again");
+        displayAlertModal("Error","Unexpected Error occurred, please try again");
     }
 }
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     document.getElementById("joinButton").addEventListener("click",async ()=>{
         await dojoinGroup();
+    })
+
+    closeModal();
+
+    document.getElementsByClassName("close-btn")[0].addEventListener("click",()=>{
+        closeModal();
+    })
+
+    document.getElementsByClassName("close-modal")[0].addEventListener("click",()=>{
+        closeModal();
     })
 })
 
