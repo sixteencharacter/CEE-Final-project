@@ -63,7 +63,38 @@ function addRowToTable(item) {
     addEventListener("event name",(event)=>{})
     
   });
+  const deleteCell = row.insertCell();
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "Del";
+
+  // Set up the onclick to call deleteData with the item's ID
+  deleteButton.onclick = () => {
+    deleteData(item._id);
+    tableBody.removeChild(row); // Optionally remove row from UI on successful delete
+  };
+
+  deleteCell.appendChild(deleteButton);
 }
+function deleteData(itemId) {
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+
+  // 😄
+
+  fetch(`http://localhost:3222/todo/${itemId}`, requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+      return response.text();
+    })
+    .then(result => console.log("Delete successful:", result))
+    .catch(error => console.error("Delete failed:", error));
+ }
 
 function makeDateEditable(cell, itemId, field, text) {
   // Save the original date in case no change is made
@@ -111,19 +142,25 @@ function makeDateEditable(cell, itemId, field, text) {
   // Attach the showDateInput function as the click event handler
   cell.addEventListener("click", showDateInput);
 }
+
+
 function renderTagsWithDropdown(cell, itemId, tags) {
+  // ถ้า itemId ไม่ถูกต้องให้แสดงข้อผิดพลาดและหยุดการทำงาน
   if (!itemId) {
     console.error("Invalid itemId:", itemId);
     return;
   }
   
-  cell.innerHTML = ""; // Clear current cell content
+  // ล้างเนื้อหาปัจจุบันใน cell
+  cell.innerHTML = "";
 
+  // วนลูปสร้างแท็กจากรายการแท็กที่ส่งเข้ามา
   tags.forEach(tag => {
     const tagElement = document.createElement("span");
     tagElement.classList.add("tag");
     tagElement.innerText = tag;
 
+    // ปุ่มลบแท็ก
     const removeButton = document.createElement("span");
     removeButton.classList.add("remove-tag");
     removeButton.innerText = "✕";
@@ -133,14 +170,14 @@ function renderTagsWithDropdown(cell, itemId, tags) {
     cell.appendChild(tagElement);
   });
 
-  // Add an input field with dropdown for adding new tags
+  // เพิ่มช่อง input สำหรับการเพิ่มแท็กใหม่พร้อม dropdown
   const addTagInput = document.createElement("input");
   addTagInput.placeholder = "Add or select tag";
   addTagInput.addEventListener("input", () => showTagDropdown(addTagInput, cell, itemId));
   addTagInput.addEventListener("keydown", e => {
     if (e.key === "Enter" && addTagInput.value.trim()) {
       updateTagList(itemId, addTagInput.value.trim(), "add", cell);
-      addTagInput.value = ""; // Clear input after adding
+      addTagInput.value = ""; // ล้างค่าใน input หลังจากเพิ่ม
       closeTagDropdown(cell);
     }
   });
@@ -148,24 +185,28 @@ function renderTagsWithDropdown(cell, itemId, tags) {
 }
 
 // Function to show a dropdown with tag suggestions
+// ฟังก์ชันสำหรับแสดง dropdown เพื่อแนะนำแท็กที่มีอยู่
 function showTagDropdown(input, cell, itemId) {
-  closeTagDropdown(cell); // Close any existing dropdown
+  closeTagDropdown(cell); // ปิด dropdown ที่มีอยู่ก่อนหน้า
 
+  // สร้าง dropdown สำหรับแนะนำแท็ก
   const dropdown = document.createElement("div");
   dropdown.classList.add("tag-dropdown");
 
+  // กรองแท็กจาก predefinedTags ที่ยังไม่ได้ถูกเลือกใน cell นี้
   const filteredTags = predefinedTags.filter(tag => 
     tag.toLowerCase().includes(input.value.toLowerCase()) && 
     !Array.from(cell.querySelectorAll(".tag")).some(el => el.innerText === tag)
   );
 
+  // แสดงรายการแท็กที่กรองได้ใน dropdown
   filteredTags.forEach(tag => {
     const dropdownItem = document.createElement("div");
     dropdownItem.classList.add("dropdown-item");
     dropdownItem.innerText = tag;
     dropdownItem.addEventListener("click", () => {
       updateTagList(itemId, tag, "add", cell);
-      input.value = ""; // Clear input
+      input.value = ""; // ล้างค่าใน input หลังจากเลือกแท็ก
       closeTagDropdown(cell);
     });
     dropdown.appendChild(dropdownItem);
@@ -175,6 +216,7 @@ function showTagDropdown(input, cell, itemId) {
 }
 
 // Function to close the tag dropdown
+// ฟังก์ชันปิด dropdown ของแท็ก
 function closeTagDropdown(cell) {
   const existingDropdown = cell.querySelector(".tag-dropdown");
   if (existingDropdown) {
@@ -183,27 +225,31 @@ function closeTagDropdown(cell) {
 }
 
 // Function to add or remove a tag and update the server without reloading the table
+// ฟังก์ชันสำหรับเพิ่มหรือลบแท็กและอัปเดตข้อมูลในเซิร์ฟเวอร์โดยไม่ต้องโหลดตารางใหม่
 async function updateTagList(itemId, tag, action, cell) {
   try {
-    // Fetch the item to ensure `tags` field exists
+    // เรียกข้อมูล item เพื่อให้แน่ใจว่า field `tags` มีอยู่
     const response = await fetch(`http://localhost:3222/todo/${itemId}`, {
       method: "GET",
       headers: myHeaders
     });
     const item = await response.json();
 
+    // ตรวจสอบว่าฟิลด์ tags มีรูปแบบที่ถูกต้อง
     if (!item.tags || !Array.isArray(item.tags)) {
       console.error("Invalid tags format for item:", item);
       return;
     }
 
+    // อัปเดตรายการแท็กโดยเพิ่มหรือลบแท็กตาม action
     const updatedTags = action === "add" ? [...item.tags, tag] : item.tags.filter(t => t !== tag);
-    await handleEdit(itemId, "tags", updatedTags); // Update tags on server
-    renderTagsWithDropdown(cell, itemId, updatedTags); // Re-render tags in the cell
+    await handleEdit(itemId, "tags", updatedTags); // อัปเดตแท็กบนเซิร์ฟเวอร์
+    renderTagsWithDropdown(cell, itemId, updatedTags); // แสดงผลแท็กใหม่ใน cell
   } catch (error) {
     console.error(`Error ${action === "add" ? "adding" : "removing"} tag:`, error);
   }
 }
+
 
 function renderStatusDropdown(cell, itemId, currentStatus) {
   const statusOptions = ["Scheduled", "In_progress", "Completed"];
@@ -340,109 +386,109 @@ function clearInputFields() {
 
 
 
-// Array ของแท็กที่มีอยู่
-const availableTags = ["JavaScript", "CSS", "HTML", "React", "Node.js"];
-let selectedTags = []; // Array สำหรับเก็บแท็กที่ถูกเลือก
+  // Array ของแท็กที่มีอยู่
+  const availableTags = ["JavaScript", "CSS", "HTML", "React", "Node.js"];
+  let selectedTags = []; // Array สำหรับเก็บแท็กที่ถูกเลือก
 
-document.addEventListener("DOMContentLoaded", () => {
-  const tagContainer = document.getElementById("tag-container");
-  const tagInput = document.getElementById("tag-input");
-  const tagList = document.getElementById("tag-list");
+  document.addEventListener("DOMContentLoaded", () => {
+    const tagContainer = document.getElementById("tag-container");
+    const tagInput = document.getElementById("tag-input");
+    const tagList = document.getElementById("tag-list");
 
-  // อัปเดต dropdown list ของแท็กที่มีอยู่
-  updateTagDropdown();
+    // อัปเดต dropdown list ของแท็กที่มีอยู่
+    updateTagDropdown();
 
-  // เมื่อผู้ใช้กด Enter เพื่อเพิ่มแท็กใหม่
-  tagInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addTag(tagInput.value);
-      tagInput.value = ""; // ล้างค่าใน input หลังจากเพิ่มแท็ก
-    }
-  });
-
-  // เมื่อพิมพ์เพื่อแสดงและกรองแท็ก
-  tagInput.addEventListener("input", handleTagInput);
-
-  // คลิกภายนอกเพื่อปิด dropdown
-  document.addEventListener("click", (e) => {
-    if (!tagContainer.contains(e.target)) {
-      tagList.style.display = "none";
-    }
-  });
-
-  function updateTagDropdown() {
-    tagList.innerHTML = "";
-    availableTags.forEach((tag) => {
-      const tagItem = document.createElement("div");
-      tagItem.classList.add("tag-item");
-      tagItem.innerText = tag;
-      tagItem.addEventListener("click", () => {
-        addTag(tag);
-        tagInput.value = "";
-      });
-      tagList.appendChild(tagItem);
-    });
-    tagList.style.display = "block";
-  }
-
-  function handleTagInput() {
-    const query = tagInput.value.toLowerCase();
-    const filteredTags = availableTags.filter((tag) => tag.toLowerCase().includes(query));
-    tagList.innerHTML = "";
-    filteredTags.forEach((tag) => {
-      const tagItem = document.createElement("div");
-      tagItem.classList.add("tag-item");
-      tagItem.innerText = tag;
-      tagItem.addEventListener("click", () => {
-        addTag(tag);
-        tagInput.value = "";
-      });
-      tagList.appendChild(tagItem);
-    });
-    tagList.style.display = "block";
-  }
-
-  function addTag(tag) {
-    if (tag && !selectedTags.includes(tag)) {
-      selectedTags.push(tag);
-      if (!availableTags.includes(tag)) {
-        availableTags.push(tag); // เพิ่มแท็กใหม่ใน availableTags หากเป็นแท็กใหม่
+    // เมื่อผู้ใช้กด Enter เพื่อเพิ่มแท็กใหม่
+    tagInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTag(tagInput.value);
+        tagInput.value = ""; // ล้างค่าใน input หลังจากเพิ่มแท็ก
       }
-      renderTags();
-      updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังเพิ่มแท็กใหม่
-    }
-  }
-
-  function removeTag(tag) {
-    selectedTags = selectedTags.filter((t) => t !== tag);
-    renderTags();
-    updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังลบแท็ก
-  }
-
-  function renderTags() {
-    const existingTags = Array.from(tagContainer.querySelectorAll(".tag"));
-    existingTags.forEach((tagElement) => tagElement.remove());
-
-    selectedTags.forEach((tag) => {
-      const tagElement = document.createElement("span");
-      tagElement.classList.add("tag");
-      tagElement.innerText = tag;
-
-      // ปุ่มลบแท็ก
-      const removeButton = document.createElement("span");
-      removeButton.classList.add("remove-tag");
-      removeButton.innerText = "✕";
-      removeButton.addEventListener("click", () => removeTag(tag));
-
-      tagElement.appendChild(removeButton);
-      tagContainer.insertBefore(tagElement, tagInput);
     });
-  }
 
-  // ฟังก์ชันเพื่ออัปเดตแท็กในฐานข้อมูลโดยใช้ handleEdit
-  function updateTagsInDatabase() {
-    const itemId = "PUT_ITEM_ID_HERE"; // แทนที่ด้วย ID ของ item
-    handleEdit(itemId, "tags", selectedTags);
-  }
-});
+    // เมื่อพิมพ์เพื่อแสดงและกรองแท็ก
+    tagInput.addEventListener("input", handleTagInput);
+
+    // คลิกภายนอกเพื่อปิด dropdown
+    document.addEventListener("click", (e) => {
+      if (!tagContainer.contains(e.target)) {
+        tagList.style.display = "none";
+      }
+    });
+
+    function updateTagDropdown() {
+      tagList.innerHTML = "";
+      availableTags.forEach((tag) => {
+        const tagItem = document.createElement("div");
+        tagItem.classList.add("tag-item");
+        tagItem.innerText = tag;
+        tagItem.addEventListener("click", () => {
+          addTag(tag);
+          tagInput.value = "";
+        });
+        tagList.appendChild(tagItem);
+      });
+      tagList.style.display = "block";
+    }
+
+    function handleTagInput() {
+      const query = tagInput.value.toLowerCase();
+      const filteredTags = availableTags.filter((tag) => tag.toLowerCase().includes(query));
+      tagList.innerHTML = "";
+      filteredTags.forEach((tag) => {
+        const tagItem = document.createElement("div");
+        tagItem.classList.add("tag-item");
+        tagItem.innerText = tag;
+        tagItem.addEventListener("click", () => {
+          addTag(tag);
+          tagInput.value = "";
+        });
+        tagList.appendChild(tagItem);
+      });
+      tagList.style.display = "block";
+    }
+
+    function addTag(tag) {
+      if (tag && !selectedTags.includes(tag)) {
+        selectedTags.push(tag);
+        if (!availableTags.includes(tag)) {
+          availableTags.push(tag); // เพิ่มแท็กใหม่ใน availableTags หากเป็นแท็กใหม่
+        }
+        renderTags();
+        updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังเพิ่มแท็กใหม่
+      }
+    }
+
+    function removeTag(tag) {
+      selectedTags = selectedTags.filter((t) => t !== tag);
+      renderTags();
+      updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังลบแท็ก
+    }
+
+    function renderTags() {
+      const existingTags = Array.from(tagContainer.querySelectorAll(".tag"));
+      existingTags.forEach((tagElement) => tagElement.remove());
+
+      selectedTags.forEach((tag) => {
+        const tagElement = document.createElement("span");
+        tagElement.classList.add("tag");
+        tagElement.innerText = tag;
+
+        // ปุ่มลบแท็ก
+        const removeButton = document.createElement("span");
+        removeButton.classList.add("remove-tag");
+        removeButton.innerText = "✕";
+        removeButton.addEventListener("click", () => removeTag(tag));
+
+        tagElement.appendChild(removeButton);
+        tagContainer.insertBefore(tagElement, tagInput);
+      });
+    }
+
+    // ฟังก์ชันเพื่ออัปเดตแท็กในฐานข้อมูลโดยใช้ handleEdit
+    function updateTagsInDatabase() {
+      const itemId = "PUT_ITEM_ID_HERE"; // แทนที่ด้วย ID ของ item
+      handleEdit(itemId, "tags", selectedTags);
+    }
+  });
