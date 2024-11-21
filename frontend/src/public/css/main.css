@@ -153,6 +153,9 @@ button:hover {
 .container {
   width: 100%;
   max-width: 1200px;
+  justify-items: center;
+  justify-content: center;
+
 }
 
 .header {
@@ -197,6 +200,13 @@ h1 {
   font-size: 16px;
   border-radius: 5px;
 }
+.input_tag{
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  
+}
+
 
 .tab.active {
   background-color: #555;

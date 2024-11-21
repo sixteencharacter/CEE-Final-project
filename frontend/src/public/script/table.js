@@ -6,10 +6,10 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-document.getElementById("applyFilterButton").addEventListener("click", function() {
-  clearTable();
-  loadData();
-});
+// document.getElementById("applyFilterButton").addEventListener("click", function() {
+//   clearTable();
+//   loadData();
+// });
 
 // Function to load data and display it in the table
 async function loadData() {
@@ -22,24 +22,24 @@ async function loadData() {
   };
   
   // Get filter values
-  const startDateFrom = document.getElementById("startDateFrom").value;
-  const startDateTo = document.getElementById("startDateTo").value;
-  const endDateFrom = document.getElementById("endDateFrom").value;
-  const endDateTo = document.getElementById("endDateTo").value;
-  const tags = document.getElementById("filterTags").value;
+  // const startDateFrom = document.getElementById("startDateFrom").value;
+  // const startDateTo = document.getElementById("startDateTo").value;
+  // const endDateFrom = document.getElementById("endDateFrom").value;
+  // const endDateTo = document.getElementById("endDateTo").value;
+  // const tags = document.getElementById("filterTags").value;
 
   // Add filter parameters to the URL
-  if (startDateFrom){ console.log(startDateFrom,format2Date(startDateFrom)); url.searchParams.append("startDateStart", formatDate(startDateFrom));}
-  if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
-  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
-  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  // if (startDateFrom){ console.log(startDateFrom,format2Date(startDateFrom)); url.searchParams.append("startDateStart", formatDate(startDateFrom));}
+  // if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
+  // if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
+  // if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
   //console.log(url.href);
 
   // Handle tags (assume comma-separated input)
-  if (tags) {
-      const tagsArray = tags.split(",").map(tag => tag.trim());
-      tagsArray.forEach(tag => url.searchParams.append("tags", tag));
-  }
+  // if (tags) {
+  //     const tagsArray = tags.split(",").map(tag => tag.trim());
+  //     tagsArray.forEach(tag => url.searchParams.append("tags", tag));
+  // }
 
   try {
       const response = await fetch(url, requestOptions);
@@ -212,6 +212,7 @@ function renderTagsWithDropdown(cell, itemId, tags) {
   // เพิ่มช่อง input สำหรับการเพิ่มแท็กใหม่พร้อม dropdown
   const addTagInput = document.createElement("input");
   addTagInput.placeholder = "Add or select tag";
+  addTagInput.classList.add("input_tag");
   addTagInput.addEventListener("input", () => showTagDropdown(addTagInput, cell, itemId));
   addTagInput.addEventListener("keydown", e => {
     if (e.key === "Enter" && addTagInput.value.trim()) {
