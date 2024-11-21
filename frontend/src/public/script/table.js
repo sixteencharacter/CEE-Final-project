@@ -10,6 +10,7 @@ document.getElementById("applyFilterButton").addEventListener("click", function(
   clearTable();
   loadData();
 });
+
 // Function to load data and display it in the table
 async function loadData() {
   let url = new URL("http://localhost:3222/todo");
