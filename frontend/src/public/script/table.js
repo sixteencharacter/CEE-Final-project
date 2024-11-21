@@ -330,7 +330,9 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
   const dueDate = document.querySelector("#add-date input[type='date']").value;
   
   const startDate = document.querySelector("#add-start-date input[type='date']").value;
-  const tags = Array.from(document.querySelectorAll("#tag-container .tag")).map(tag => tag.innerText); // Collect all tags
+  const removeTagTrailing = new RegExp("\\n.*✕");
+  const tags = Array.from(document.querySelectorAll("#tag-container .tag")).map(tag => tag.innerText.replace(removeTagTrailing,"")); // Collect all tags
+  console.log("tags processed",tags);
   const status = document.getElementById("status").value;
   const description = document.getElementById("add-description").querySelector("textarea").value;
 
