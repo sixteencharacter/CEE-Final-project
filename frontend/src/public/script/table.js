@@ -6,24 +6,58 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-
+document.getElementById("applyFilterButton").addEventListener("click", function() {
+  clearTable();
+  loadData();
+});
 // Function to load data and display it in the table
 async function loadData() {
-  try {
-    const requestOptions = {
+  let url = new URL("http://localhost:3222/todo");
+
+  const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow"
-    };
-    const response = await fetch("http://localhost:3222/todo", requestOptions);
-    if (response.ok) {
-      const data = await response.json();
-      data.forEach(item => addRowToTable(item)); // Add each item to the table
-    } else {
-      console.error("Failed to load data:", response.statusText);
-    }
+  };
+  
+  // Get filter values
+  const startDateFrom = document.getElementById("startDateFrom").value;
+  const startDateTo = document.getElementById("startDateTo").value;
+  const endDateFrom = document.getElementById("endDateFrom").value;
+  const endDateTo = document.getElementById("endDateTo").value;
+  const tags = document.getElementById("filterTags").value;
+
+  // Add filter parameters to the URL
+  if (startDateFrom){ console.log(startDateFrom,format2Date(startDateFrom)); url.searchParams.append("startDateStart", formatDate(startDateFrom));}
+  if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
+  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
+  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  //console.log(url.href);
+
+  // Handle tags (assume comma-separated input)
+  if (tags) {
+      const tagsArray = tags.split(",").map(tag => tag.trim());
+      tagsArray.forEach(tag => url.searchParams.append("tags", tag));
+  }
+
+  try {
+      const response = await fetch(url, requestOptions);
+      if (response.ok) {
+          const data = await response.json();
+          data.forEach(item => addRowToTable(item)); // Add each item to the table
+      } else {
+          console.error("Failed to load data:", response.statusText);
+      }
   } catch (error) {
-    console.error("Error:", error);
+      console.error("Error:", error);
+  }
+}
+
+// Function to clear the table
+function clearTable() {
+  const tableBody = document.getElementById("main-table-body");
+  while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
   }
 }
 
@@ -32,7 +66,7 @@ function addRowToTable(item) {
   const tableBody = document.getElementById("main-table-body");
   const row = tableBody.insertRow();
 
-  const fields = ["title", "dueDate", "date", "startDate", "tags", "status", "description"];
+  const fields = ["title", "startDate","dueDate", "date", "tags", "status", "description"];
 
   fields.forEach(field => {
     const cell = row.insertCell();
@@ -114,7 +148,7 @@ function makeDateEditable(cell, itemId, field, text) {
         cell.innerText = formatDate(newDate); // Update display in DD/MM/YYYY format
         await handleEdit(itemId, field, formatDate(newDate)); // Save updated date to server
         if(field == "dueDate"){
-            parentNode.children[2].innerHTML = calculateDaysUntil(newDate);
+            parentNode.children[3].innerHTML = calculateDaysUntil(newDate);
         }
         
       } else {
@@ -138,6 +172,7 @@ function makeDateEditable(cell, itemId, field, text) {
     // Remove the click event to prevent multiple listeners
     cell.removeEventListener("click", showDateInput);
   }
+  
 
   // Attach the showDateInput function as the click event handler
   cell.addEventListener("click", showDateInput);
@@ -150,6 +185,9 @@ function renderTagsWithDropdown(cell, itemId, tags) {
     console.error("Invalid itemId:", itemId);
     return;
   }
+
+  cell.classList.add("tag-container1");
+
   
   // ล้างเนื้อหาปัจจุบันใน cell
   cell.innerHTML = "";
@@ -250,11 +288,13 @@ async function updateTagList(itemId, tag, action, cell) {
   }
 }
 
+////////////////////////////////////STATUS////////////////////////////////////////////////////////
+
 
 function renderStatusDropdown(cell, itemId, currentStatus) {
   const statusOptions = ["Scheduled", "In_progress", "Completed"];
   const select = document.createElement("select");
-
+  select.classList.add("status1");
   statusOptions.forEach(status => {
     const option = document.createElement("option");
     option.value = status;
@@ -262,6 +302,7 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
     if (status === currentStatus) option.selected = true;
     select.appendChild(option);
   });
+  
 
   select.addEventListener("change", () => handleEdit(itemId, "status", select.value));
   cell.appendChild(select);

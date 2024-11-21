@@ -1,41 +1,46 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #fff0d6;
-    color: #000000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items:center;
-    align-items: center;
-    
-    padding: 20px;
-    
-  }
-  /* Login Container */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff0d6;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+
+  padding: 20px;
+
+}
+
+/* Login Container */
 .login-container {
   width: 100%;
-  max-width: 400px; /* Constrains width on larger screens */
+  max-width: 400px;
+  /* Constrains width on larger screens */
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fffaf3; /* Light, warm cream color */
+  background-color: #fffaf3;
+  /* Light, warm cream color */
   text-align: center;
 }
 
 .logo img {
-  width: 200px; /* Increased size for a larger logo */
+  width: 200px;
+  /* Increased size for a larger logo */
   margin-bottom: 20px;
 }
 
 h2 {
   font-size: 1.5rem;
-  color: #6b4f39; /* Darker latte brown for text */
+  color: #6b4f39;
+  /* Darker latte brown for text */
   margin-bottom: 1rem;
 }
 
@@ -50,17 +55,20 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
   padding: 12px;
-  border: 1px solid #d0bfa5; /* Light brown border */
+  border: 1px solid #d0bfa5;
+  /* Light brown border */
   border-radius: 5px;
   font-size: 1rem;
-  background-color: #fbf3e9; /* Soft latte background */
+  background-color: #fbf3e9;
+  /* Soft latte background */
 }
 
 input[type="email"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
   outline: none;
-  border-color: #b09074; /* Darker brown when focused */
+  border-color: #b09074;
+  /* Darker brown when focused */
 }
 
 /* Button */
@@ -70,24 +78,28 @@ button {
   border-radius: 5px;
   font-size: 1rem;
   color: #ffffff;
-  background-color: #b09074; /* Rich, warm brown color */
+  background-color: #b09074;
+  /* Rich, warm brown color */
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #8c6d52; /* Slightly darker shade on hover */
+  background-color: #8c6d52;
+  /* Slightly darker shade on hover */
 }
 
 /* Footer Links */
 .footer {
   margin-top: 0px;
   font-size: 0.9rem;
-  color: #000000; /* Muted brown for footer text */
+  color: #000000;
+  /* Muted brown for footer text */
 }
 
 .footer a {
-  color: #a5795a; /* Lighter latte accent color */
+  color: #a5795a;
+  /* Lighter latte accent color */
   text-decoration: none;
 }
 
@@ -98,321 +110,419 @@ button:hover {
 /* Responsive Design: Adjustments for smaller screens */
 @media (max-width: 600px) {
   .login-container {
-      padding: 20px; /* Reduce padding for smaller screens */
+    padding: 20px;
+    /* Reduce padding for smaller screens */
   }
 
   h2 {
-      font-size: 1.25rem; /* Slightly smaller heading */
+    font-size: 1.25rem;
+    /* Slightly smaller heading */
   }
 
   .logo img {
-      width: 100px; /* Scale down logo size for smaller screens */
+    width: 100px;
+    /* Scale down logo size for smaller screens */
   }
 
   button {
-      padding: 10px; /* Reduce padding on the button */
-      font-size: 0.9rem; /* Slightly smaller font on button */
+    padding: 10px;
+    /* Reduce padding on the button */
+    font-size: 0.9rem;
+    /* Slightly smaller font on button */
   }
 }
 
 /* Fade-in Animation */
 @keyframes fade-in {
   from {
-      opacity: 0;
-      transform: translateY(20px); /* Slight upward shift for a smoother effect */
+    opacity: 0;
+    transform: translateY(20px);
+    /* Slight upward shift for a smoother effect */
   }
+
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Apply the animation to the login container */
 
-  
-  
-  .container {
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  h1 {
-    font-size: 40px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .tabs {
-    display: flex;
-    justify-content: center;
-  }
-  .submits
-  {
-    padding-top: 30px;
-  }
-  .submit{
-    background-color: #333;
-    color: #f1f1f1;
-    padding: 8px 16px;
-    margin: 0 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-  }
 
-  
-  .tab {
-    background-color: #333;
-    color: #f1f1f1;
-    padding: 8px 16px;
-    margin: 0 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-  
-  .tab.active {
-    background-color: #555;
-  }
 
-  .top{
-    
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .schedule-table th, .schedule-table td {
-    padding: 12px;
-    border: 1px solid #444;
-    text-align: left;
-  }
-  
-  .schedule-table th {
-    background-color: #fffaf3;
-    color: #000000;
-  }
-  
-  .schedule-table tr:nth-child(even) {
-    background-color: #ffdcac;
-  }
-  
-  
-  .tag {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #000000;
-  }
-  
-  
-  
-  #status {
-    color: rgb(0, 0, 0); /* สีตัวหนังสือภายใน select */
-    background-color: rgb(255, 255, 255); /* สีพื้นหลังของ select */
-    padding: 8px;
-    border-radius: 5px;
+.container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+
+.submits {
+  padding-top: 30px;
+}
+
+.submit {
+  background-color: #333;
+  color: #f1f1f1;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+
+.tab {
+  background-color: #333;
+  color: #f1f1f1;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.tab.active {
+  background-color: #555;
+}
+
+.top {
+
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 12px;
+  border: 1px solid #44444417;
+  text-align: left;
+}
+
+.schedule-table th {
+  background-color: #fffaf3;
+  color: #000000;
+}
+
+.schedule-table tr:nth-child(even) {
+  background-color: #ffdcac;
+}
+
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #000000;
+}
+
+
+
+#status {
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภายใน select */
+  background-color: rgb(255, 255, 255);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
 }
 
 /* สไตล์เฉพาะสำหรับแต่ละตัวเลือก */
 #status option[value="scheduled"] {
-    background-color: lightgray;
-    color: black;
+  background-color: rgb(255, 219, 212);
+  color: black;
 }
 
-#status option[value="in_progress"]  {
-    background-color: yellow;
-    color: black;
+#status option[value="in_progress"] {
+  background-color: rgb(255, 255, 197);
+  color: black;
 }
 
 #status option[value="completed"] {
-    background-color: green;
-    color: white;
+  background-color: rgb(204, 255, 204);
+  color: rgb(0, 0, 0);
 }
-#status option[value="Scheduled"] {
-  background-color: lightgray;
+
+.status1 {
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภา ยใน select */
+  background-color: rgb(251, 255, 173);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.status1 option[value="Scheduled"] {
+  background-color: rgb(255, 219, 212);
   color: black;
 }
 
-#status option[value="In_progress"]  {
-  background-color: yellow;
+.status1 option[value="In_progress"] {
+  background-color: rgb(255, 255, 197);
   color: black;
 }
 
-#status option[value="Completed"] {
-  background-color: green;
-  color: white;
+.status1 option[value="Completed"] {
+  background-color: rgb(204, 255, 204);
+  color: black;
 }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropbtn {
-    background-color: #333;
-    color: #f1f1f1;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 5px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    z-index: 1;
-    border-radius: 5px;
-  }
-  
-  .dropdown-content label {
-    display: block;
-    color: #f1f1f1;
-    font-size: 14px;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .dropdown-content label input {
-    margin-right: 8px;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  .dropdown-content label:hover {
-    background-color: #555;
-  }
-  .image-upload {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .image-upload label {
-    font-size: 16px;
-    color: #f1f1f1;
-  }
-  
-  .image-upload input[type="file"] {
-    margin-top: 10px;
-    padding: 5px;
-    color: #f1f1f1;
-  }
-  
-  .image-display {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .image-display img {
-    max-width: 80%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  input[type="text"] {
-    background-color: #ffffff; /* Black background */
-    color: #000000; /* White text */
-    border: 1px solid #444; /* Dark border */
-    padding: 8px; /* Padding inside the input field */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size for text */
-  }
-  
-  input[type="text"]::placeholder {
-    color: #bbb; /* Light gray color for placeholder text */
-  }
-  input[type="date"] {
-    background-color: #ffffff; /* Black background */
-    color: #000000; /* White text */
-    border: 1px solid #444; /* Dark border */
-    padding: 8px; /* Padding inside the input field */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 16px; /* Font size for text */
-    appearance: none; /* Remove default styling */
-  }
-  
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Inverts the color of the calendar icon */
-  }
-  
-  input[type="date"]::placeholder {
-    color: #bbb; /* Light gray color for placeholder text */
-  }
-  textarea{
-    border-radius: 5px;
-    padding: 5px;
-  }
-  
 
-  #tag-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    border: 1px solid #646464;
-    padding: 0px;
-    border-radius: 5px;
-    color: #000;
-    
-  }
-  
-  .tag {
-    background-color: #d3ffc1;
-    padding: 8px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .remove-tag {
-    margin-left: 5px;
-    cursor: pointer;
-  }
-  
-  #tag-input {
-    border: none;
-    outline: none;
-    min-width: 100px;
-    
-  }
-  
-  #tag-list {
-    position: absolute;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 12%;
-    max-height: 150px;
-    overflow-y: auto;
-    display: none;
-    z-index: 10;
-    color: #000;
-  }
-  
-  .tag-item {
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .tag-item:hover {
-    background-color: #f0f0f0;
-  }
-  
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #333;
+  color: #f1f1f1;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content label {
+  display: block;
+  color: #f1f1f1;
+  font-size: 14px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown-content label input {
+  margin-right: 8px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content label:hover {
+  background-color: #555;
+}
+
+.image-upload {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-upload label {
+  font-size: 16px;
+  color: #f1f1f1;
+}
+
+.image-upload input[type="file"] {
+  margin-top: 10px;
+  padding: 5px;
+  color: #f1f1f1;
+}
+
+.image-display {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-display img {
+  max-width: 80%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"] {
+  background-color: #ffffff;
+  /* Black background */
+  color: #000000;
+  /* White text */
+  border: 1px solid #444;
+  /* Dark border */
+  padding: 8px;
+  /* Padding inside the input field */
+  border-radius: 5px;
+  /* Rounded corners */
+  font-size: 16px;
+  /* Font size for text */
+}
+
+input[type="text"]::placeholder {
+  color: #bbb;
+  /* Light gray color for placeholder text */
+}
+
+input[type="date"] {
+  background-color: #ffffff;
+  /* Black background */
+  color: #000000;
+  /* White text */
+  border: 1px solid #444;
+  /* Dark border */
+  padding: 8px;
+  /* Padding inside the input field */
+  border-radius: 4px;
+  /* Rounded corners */
+  font-size: 16px;
+  /* Font size for text */
+  appearance: none;
+  /* Remove default styling */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  /* Inverts the color of the calendar icon */
+}
+
+input[type="date"]::placeholder {
+  color: #bbb;
+  /* Light gray color for placeholder text */
+}
+
+.date-input-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  /* Adjust width to fit the table cell */
+}
+
+.date-input-container input[type="date"] {
+  width: 100%;
+  /* Make the input take full width */
+  padding-right: 30px;
+  /* Add padding to the right to make space for the icon */
+  box-sizing: border-box;
+  /* Include padding in the input's width */
+}
+
+.date-input-container .calendar-icon {
+  position: absolute;
+  right: 10px;
+  /* Position the icon inside the input, aligned to the right */
+  top: 50%;
+  transform: translateY(-50%);
+  /* Center vertically */
+  pointer-events: none;
+  /* Prevent the icon from blocking input interaction */
+  font-size: 16px;
+  /* Adjust size of the icon */
+  color: #888;
+  /* Optional: Set icon color */
+}
+
+
+
+#add-due-date {
+  padding: 50px;
+  flex: auto;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+
+
+
+}
+
+textarea {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  padding: 0px;
+
+  color: #000;
+
+
+}
+
+
+.tag-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  padding: 0px;
+
+  color: #000;
+
+
+}
+
+.tag {
+  background-color: #CBE4F9;
+  padding: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+#tag-input {
+  border: none;
+  outline: none;
+  min-width: 100px;
+
+}
+
+#tag-list {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 12%;
+  max-height: 150px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10;
+  color: #000;
+}
+
+.tag-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.tag-item:hover {
+  background-color: #f0f0f0;
+}
