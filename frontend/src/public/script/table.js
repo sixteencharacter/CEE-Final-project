@@ -294,7 +294,7 @@ async function updateTagList(itemId, tag, action, cell) {
 
 
 function renderStatusDropdown(cell, itemId, currentStatus) {
-  const statusOptions = ["Scheduled", "In_progress", "Completed"];
+  const statusOptions = ["Scheduled", "In progress", "Completed"];
   const select = document.createElement("select");
   select.classList.add("status1");
   statusOptions.forEach(status => {

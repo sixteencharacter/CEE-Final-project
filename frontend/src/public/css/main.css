@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +6,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  
   background-color: #fff0d6;
   color: #000000;
   display: flex;
@@ -13,6 +14,9 @@ body {
   justify-content: center;
   justify-items: center;
   align-items: center;
+  font-family: "Oxygen Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
 
   padding: 20px;
 
@@ -236,10 +240,13 @@ h1 {
   background-color: #fffaf3;
   color: #000000;
 }
-
+.schedule-table tr{
+  
+}
 .schedule-table tr:nth-child(even) {
   background-color: #ffdcac;
 }
+
 
 
 .tag {
@@ -258,6 +265,7 @@ h1 {
   /* สีพื้นหลังของ select */
   padding: 8px;
   border-radius: 5px;
+  border: none;
 }
 
 /* สไตล์เฉพาะสำหรับแต่ละตัวเลือก */
@@ -283,6 +291,7 @@ h1 {
   /* สีพื้นหลังของ select */
   padding: 8px;
   border-radius: 5px;
+  border: none;
 }
 
 .status1 option[value="Scheduled"] {
@@ -379,7 +388,7 @@ input[type="text"] {
   /* Black background */
   color: #000000;
   /* White text */
-  border: 1px solid #444;
+  border:none;
   /* Dark border */
   padding: 8px;
   /* Padding inside the input field */
@@ -434,6 +443,8 @@ input[type="date"]::placeholder {
   padding-right: 30px;
   /* Add padding to the right to make space for the icon */
   box-sizing: border-box;
+  border: none;
+  color: #000000a1;
   /* Include padding in the input's width */
 }
 
@@ -455,7 +466,7 @@ input[type="date"]::placeholder {
 
 
 #add-due-date {
-  padding: 50px;
+  padding: 0%;
   flex: auto;
   justify-items: center;
   justify-content: center;
@@ -491,6 +502,7 @@ textarea {
   padding: 0px;
 
   color: #000;
+  border: none;
 
 
 }
