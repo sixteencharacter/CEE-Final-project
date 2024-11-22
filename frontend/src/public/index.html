@@ -14,62 +14,67 @@
     <div class="logo">
       <img src="/images/logo.png" alt="Logo">
     </div>
-
     <div class="footer">
       <button id="doChangeGroupBtn">Change Group</button>
       <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <div class="filters">
-    <div>
-      <label for="filterTitle">Title:</label>
-      <input type="text" id="filterTitle" placeholder="Filter by Title">
+  <div style="width:82.5%;margin-bottom: 10px;">
+    <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
+  </div>
 
-      <label for="filterStatus">Status:</label>
-
-      <select id="filterStatus">
-        <option value="">No Filters</option>
-        <option value="scheduled">Scheduled</option>
-        <option value="In progress">In Progress</option>
-        <option value="Completed">Completed</option>
-      </select>
-    </div>
-    <div style="padding-top: 10px;">
-      <label for="startDateFrom">Start Date From:</label>
-      <input type="date" id="startDateFrom">
-
-      <label for="startDateTo">Start Date To:</label>
-      <input type="date" id="startDateTo">
-
-      <label for="endDateFrom">End Date From:</label>
-      <input type="date" id="endDateFrom">
-
-      <label for="endDateTo">End Date To:</label>
-      <input type="date" id="endDateTo">
-    </div>
-    <div style="display: flex; gap:15px; padding-top: 10px;" <label for="filterTags">Tags:</label>
-      <div >
-        <div id="tag-container">
-          <!-- Selected tags will be shown here -->
-          <input type="text" id="tag-input" placeholder="Add or select tags" autocomplete="off">
-        </div>
-
-        <div id="tag-list" class="dropdown">
-          <!-- Dropdown with tag suggestions -->
-        </div>
+  <div id="filterWrapper" style="display:none">
+    <div class="hstack">
+      <div>
+        <label for="filterTitle">Title:</label>
+        <input type="text" id="filterTitle" placeholder="Filter by Title">
       </div>
-
+      <div>
+        <label for="filterStatus">Status:</label>
+        <select id="filterStatus">
+          <option value="">No Filters</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="In progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    <div class="hstack">
+      <div>
+        <label for="startDateFrom">Start Date From:</label>
+        <input type="date" id="startDateFrom">
+      </div>
+      <div>
+        <label for="startDateTo">Start Date To:</label>
+        <input type="date" id="startDateTo">
+      </div>
+    </div>
+    <div class="hstack">
+      <div>
+        <label for="endDateFrom">End Date From:</label>
+        <input type="date" id="endDateFrom">
+      </div>
+      <div>
+        <label for="endDateTo">End Date To:</label>
+        <input type="date" id="endDateTo">
+      </div>
+    </div>
+    <div class="hstack">
+      <label for="endDateTo">Tags:</label> 
+      <div contenteditable="true" style="padding:7px;background-color: #FFF;min-width:150px;border-radius:6px;">
+      </div>
+      <div id="dropdown" class="filtertag-dropdown" style="display: block;"></div>
+    </div>
+    <div class="hstack">
       <div style="display: flex; gap: 15px;">
         <button id="applyFilterButton">Apply Filters</button>
         <button id="clearFilterButton">Clear Filters</button>
+        <button style="background-color: #964B00;" id="hideCanvasButton">Hide filter canvas</button>
       </div>
-
-
-
     </div>
-
   </div>
+
 
   <div class="container">
     <div class="header">
