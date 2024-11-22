@@ -240,9 +240,7 @@ h1 {
   background-color: #fffaf3;
   color: #000000;
 }
-.schedule-table tr{
-  
-}
+
 .schedule-table tr:nth-child(even) {
   background-color: #ffdcac;
 }

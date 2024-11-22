@@ -6,11 +6,14 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-// document.getElementById("applyFilterButton").addEventListener("click", function() {
-//   clearTable();
-//   loadData();
-// });
-
+document.getElementById("applyFilterButton").addEventListener("click", function() {
+  clearTable();
+  loadData();
+});
+document.getElementById("clearFilterButton").addEventListener("click", function() {
+  clearFilters();
+  loadData();
+});
 // Function to load data and display it in the table
 async function loadData() {
   let url = new URL("http://localhost:3222/todo");
@@ -21,25 +24,33 @@ async function loadData() {
       redirect: "follow"
   };
   
-  // Get filter values
-  // const startDateFrom = document.getElementById("startDateFrom").value;
-  // const startDateTo = document.getElementById("startDateTo").value;
-  // const endDateFrom = document.getElementById("endDateFrom").value;
-  // const endDateTo = document.getElementById("endDateTo").value;
-  // const tags = document.getElementById("filterTags").value;
+  //Get filter values
+  const startDateFrom = document.getElementById("startDateFrom").value;
+  const startDateTo = document.getElementById("startDateTo").value;
+  const endDateFrom = document.getElementById("endDateFrom").value;
+  const endDateTo = document.getElementById("endDateTo").value;
+  const tagsDropdown = document.getElementById("filterTags");
+  const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
+  console.log("Selected Tags:", selectedTags);
+  const selectedStatus = document.getElementById("filterStatus").value;
+  const title = document.getElementById("filterTitle").value;
 
   // Add filter parameters to the URL
-  // if (startDateFrom){ console.log(startDateFrom,format2Date(startDateFrom)); url.searchParams.append("startDateStart", formatDate(startDateFrom));}
-  // if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
-  // if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
-  // if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
-  //console.log(url.href);
+  if (startDateFrom) url.searchParams.append("startDateStart", formatDate(startDateFrom));
+  if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
+  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
+  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  if (selectedStatus) url.searchParams.append("status", selectedStatus);
 
-  // Handle tags (assume comma-separated input)
-  // if (tags) {
-  //     const tagsArray = tags.split(",").map(tag => tag.trim());
-  //     tagsArray.forEach(tag => url.searchParams.append("tags", tag));
-  // }
+  // Add selected tags to the URL
+  if (selectedTags.length > 0) {
+      url.searchParams.append("tags", selectedTags.join(","));
+  }
+console.log(url.href);
+  // Add title to the URL if provided
+  if (title) url.searchParams.append("title", title.trim());
+
+
 
   try {
       const response = await fetch(url, requestOptions);
@@ -62,6 +73,71 @@ function clearTable() {
   }
 }
 
+function clearFilters() {
+  // Clear date filters
+  document.getElementById("startDateFrom").value = "";
+  document.getElementById("startDateTo").value = "";
+  document.getElementById("endDateFrom").value = "";
+  document.getElementById("endDateTo").value = "";
+
+  // Clear tags (multi-select dropdown)
+  const tagsDropdown = document.getElementById("filterTags");
+  Array.from(tagsDropdown.options).forEach(option => option.selected = false);
+
+  // Clear status and title filters
+  document.getElementById("filterStatus").value = "";
+  document.getElementById("filterTitle").value = "";
+}
+
+const tagsDropdown = document.getElementById("filterTags");
+  const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+  };
+
+      try {
+          const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
+          if (response.ok) {
+              const data = await response.json(); // Assume the API returns an array of objects
+
+// Extract unique tags
+const allTags = new Set();
+data.forEach(item => {
+    if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach(tag => allTags.add(tag));
+    }
+});
+
+// Clear existing options
+tagsDropdown.innerHTML = "";
+
+if (allTags.size > 0) {
+    // Populate with unique tags
+    allTags.forEach(tag => {
+        const option = document.createElement("option");
+        option.value = tag; // The value sent with the filter
+        option.textContent = tag; // The displayed name
+        tagsDropdown.appendChild(option);
+    });
+} else {
+    // Add "No Tags Available" when there are no tags
+    const noTagsOption = document.createElement("option");
+    noTagsOption.value = "";
+    noTagsOption.disabled = true;
+    noTagsOption.selected = true;
+    noTagsOption.textContent = "No Tags Available";
+    tagsDropdown.appendChild(noTagsOption);
+}
+} else {
+console.error("Failed to fetch data:", response.statusText);
+}
+} catch (error) {
+console.error("Error fetching data:", error);
+}
+
+    
+
 // Function to add a row to the table for each item with editable fields
 function addRowToTable(item) {
   const tableBody = document.getElementById("main-table-body");
@@ -80,6 +156,7 @@ function addRowToTable(item) {
     else if(field == "date"){
       // console.log(item["dueDate"]);
       var text = convertDateToISO(item["dueDate"]);
+      cell.contentEditable="false";
       cell.innerText = calculateDaysUntil(text);
       
     }
