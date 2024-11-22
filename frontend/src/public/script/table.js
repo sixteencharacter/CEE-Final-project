@@ -31,7 +31,7 @@ async function loadData() {
   const endDateFrom = document.getElementById("endDateFrom").value;
   const endDateTo = document.getElementById("endDateTo").value;
   const tagsDropdown = document.getElementById("filterTags");
-  //const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
+  const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
   console.log("Selected Tags:", selectedTags);
   const selectedStatus = document.getElementById("filterStatus").value;
   const title = document.getElementById("filterTitle").value;

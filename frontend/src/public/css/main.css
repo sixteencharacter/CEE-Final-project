@@ -508,12 +508,8 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-
   padding: 0px;
-
   color: #000;
-
-
 }
 
 
@@ -521,13 +517,9 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-
-  padding: 0px;
-
+  
   color: #000;
   border: none;
-
-
 }
 
 .tag {
@@ -570,4 +562,74 @@ textarea {
 
 .tag-item:hover {
   background-color: #f0f0f0;
+}
+
+#filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0px;
+  color: #000;
+}
+
+
+.filter-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  
+  color: #000;
+  border: none;
+}
+
+.filter {
+  background-color: #CBE4F9;
+  padding: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-filter {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+#filter-input {
+  border: none;
+  outline: none;
+  min-width: 100px;
+
+}
+
+#filter-list {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 12%;
+  max-height: 150px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10;
+  color: #000;
+}
+
+.filter-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.filter-item:hover {
+  background-color: #f0f0f0;
+}
+
+.tagSelect {
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภายใน select */
+  background-color: rgb(255, 255, 255);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
 }
