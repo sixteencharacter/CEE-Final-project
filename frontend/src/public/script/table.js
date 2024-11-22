@@ -130,7 +130,7 @@ async function populateTags() {
       noTagsOption.selected = true;
       noTagsOption.textContent = "No Tags Available";
       tagsDropdown.appendChild(noTagsOption);
-  }
+  } 
   } else {
   console.error("Failed to fetch data:", response.statusText);
   }
