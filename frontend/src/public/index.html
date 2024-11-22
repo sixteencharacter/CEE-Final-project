@@ -25,8 +25,9 @@
     <div>
       <label for="filterTitle">Title:</label>
       <input type="text" id="filterTitle" placeholder="Filter by Title">
-      
+
       <label for="filterStatus">Status:</label>
+
       <select id="filterStatus">
         <option value="">No Filters</option>
         <option value="scheduled">Scheduled</option>
@@ -34,7 +35,7 @@
         <option value="Completed">Completed</option>
       </select>
     </div>
-    <div>
+    <div style="padding-top: 10px;">
       <label for="startDateFrom">Start Date From:</label>
       <input type="date" id="startDateFrom">
 
@@ -43,18 +44,29 @@
 
       <label for="endDateFrom">End Date From:</label>
       <input type="date" id="endDateFrom">
-      
+
       <label for="endDateTo">End Date To:</label>
       <input type="date" id="endDateTo">
     </div>
-    <div>
-      <label for="filterTags">Tags:</label>
-      <select id="filterTags" multiple>
-        <option value="" disabled>No Tags Available</option>
-      </select>
-  
-      <button id="applyFilterButton">Apply Filters</button>
-      <button id="clearFilterButton">Clear Filters</button>
+    <div style="display: flex; gap:15px; padding-top: 10px;" <label for="filterTags">Tags:</label>
+      <div >
+        <div id="tag-container">
+          <!-- Selected tags will be shown here -->
+          <input type="text" id="tag-input" placeholder="Add or select tags" autocomplete="off">
+        </div>
+
+        <div id="tag-list" class="dropdown">
+          <!-- Dropdown with tag suggestions -->
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 15px;">
+        <button id="applyFilterButton">Apply Filters</button>
+        <button id="clearFilterButton">Clear Filters</button>
+      </div>
+
+
+
     </div>
 
   </div>

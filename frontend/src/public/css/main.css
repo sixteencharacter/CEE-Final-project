@@ -282,6 +282,31 @@ h1 {
   color: rgb(0, 0, 0);
 }
 
+#filterStatus{
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภายใน select */
+  background-color: rgb(255, 255, 255);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+#filterStatus option[value="scheduled"] {
+  background-color: rgb(255, 219, 212);
+  color: black;
+}
+
+#filterStatus option[value="In progress"] {
+  background-color: rgb(255, 255, 197);
+  color: black;
+}
+
+#filterStatus option[value="Completed"] {
+  background-color: rgb(204, 255, 204);
+  color: rgb(0, 0, 0);
+}
+
 .status1 {
   color: rgb(0, 0, 0);
   /* สีตัวหนังสือภา ยใน select */
@@ -406,7 +431,7 @@ input[type="date"] {
   /* Black background */
   color: #000000;
   /* White text */
-  border: 1px solid #444;
+  border: none;
   /* Dark border */
   padding: 8px;
   /* Padding inside the input field */
