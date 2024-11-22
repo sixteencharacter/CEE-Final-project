@@ -14,127 +14,135 @@
     <div class="logo">
       <img src="/images/logo.png" alt="Logo">
     </div>
-
     <div class="footer">
       <button id="doChangeGroupBtn">Change Group</button>
       <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <div class="filters">
-    <div>
-      <label for="filterTitle">Title:</label>
-      <input type="text" id="filterTitle" placeholder="Filter by Title">
+  <div style="width:82.5%;margin-bottom: 10px;">
+    <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
+  </div>
 
-      <label for="filterStatus">Status:</label>
-
-      <select id="filterStatus">
-        <option value="">No Filters</option>
-        <option value="scheduled">Scheduled</option>
-        <option value="In progress">In Progress</option>
-        <option value="Completed">Completed</option>
-      </select>
-    </div>
-    <div style="padding-top: 10px;">
-      <label for="startDateFrom">Start Date From:</label>
-      <input type="date" id="startDateFrom">
-
-      <label for="startDateTo">Start Date To:</label>
-      <input type="date" id="startDateTo">
-
-      <label for="endDateFrom">End Date From:</label>
-      <input type="date" id="endDateFrom">
-
-      <label for="endDateTo">End Date To:</label>
-      <input type="date" id="endDateTo">
-    </div>
-    <div style="display: flex; gap:15px; padding-top: 10px;" <label for="filterTags">Tags:</label>
+  <div id="filterWrapper" style="display:none">
+    <div class="hstack">
       <div>
-        <!-- <div>
-          <select id="filterTags" class="tagSelect">
-            <option value="" disabled>No Tags Available</option>
-          </select>
-        </div> -->
-        <div class="search-select-wrapper">
-          <input type="text" name="" id="tagfilterInput">
-        </div>
-        <div style="display: flex; gap: 15px;">
-          <button id="applyFilterButton">Apply Filters</button>
-          <button id="clearFilterButton">Clear Filters</button>
-        </div>
-
-
+        <label for="filterTitle">Title:</label>
+        <input type="text" id="filterTitle" placeholder="Filter by Title">
       </div>
-
+      <div>
+        <label for="filterStatus">Status:</label>
+        <select id="filterStatus">
+          <option value="">No Filters</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="In progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
     </div>
+    <div class="hstack">
+      <div>
+        <label for="startDateFrom">Start Date From:</label>
+        <input type="date" id="startDateFrom">
+      </div>
+      <div>
+        <label for="startDateTo">Start Date To:</label>
+        <input type="date" id="startDateTo">
+      </div>
+    </div>
+    <div class="hstack">
+      <div>
+        <label for="endDateFrom">End Date From:</label>
+        <input type="date" id="endDateFrom">
+      </div>
+      <div>
+        <label for="endDateTo">End Date To:</label>
+        <input type="date" id="endDateTo">
+      </div>
+    </div>
+    <div class="hstack">
+      <label for="endDateTo">Tags:</label> 
+      <div contenteditable="true" style="padding:7px;background-color: #FFF;min-width:150px;border-radius:6px;">
+      </div>
+      <div id="dropdown" class="filtertag-dropdown" style="display: block;"></div>
+    </div>
+    <div class="hstack">
+      <div style="display: flex; gap: 15px;">
+        <button id="applyFilterButton">Apply Filters</button>
+        <button id="clearFilterButton">Clear Filters</button>
+        <button style="background-color: #964B00;" id="hideCanvasButton">Hide filter canvas</button>
+      </div>
+    </div>
+  </div>
 
-    <div class="container">
-      <div class="header">
-        <h1>🔥 Study Schedule</h1>
-        <!-- <div class="tabs">
+
+  <div class="container">
+    <div class="header">
+      <h1>🔥 Study Schedule</h1>
+      <!-- <div class="tabs">
             <button class="tab">📅 Calendar</button>
             <button class="tab active">📋 Assignments</button>
           </div> -->
-      </div>
+    </div>
 
-      <table class="schedule-table">
-        <thead>
-          <tr>
-            <th>📄 Lecture/Assignment</th>
-            <th>⏳ Start Date</th>
-            <th>📅 Due Date</th>
-            <th style="text-align: center;">Time Until Due Date</th>
-            <th>📝 Tags</th>
-            <th>⭐ Progress</th>
-            <th>📘 Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="main-table-body"></tbody>
-        <tfoot class="tfoot">
-          <tr>
-            <td id="add-title"><input type="text"></td>
-            <td id="add-start-date">
-              <div class="date-input-container">
-                <input type="date" name="bday" />
-                <span class="calendar-icon ">&#128197;</span>
-              </div>
-            </td>
-            <td id="add-date">
-              <div class="date-input-container">
-                <input type="date" name="bday" />
-                <span class="calendar-icon ">&#128197;</span>
-              </div>
-            </td>
-            <td id="add-due-date"></td>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>📄 Lecture/Assignment</th>
+          <th>⏳ Start Date</th>
+          <th>📅 Due Date</th>
+          <th style="text-align: center;">Time Until Due Date</th>
+          <th>📝 Tags</th>
+          <th>⭐ Progress</th>
+          <th>📘 Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="main-table-body"></tbody>
+      <tfoot class="tfoot">
+        <tr>
+          <td id="add-title"><input type="text"></td>
+          <td id="add-start-date">
+            <div class="date-input-container">
+              <input type="date" name="bday" />
+              <span class="calendar-icon ">&#128197;</span>
+            </div>
+          </td>
+          <td id="add-date">
+            <div class="date-input-container">
+              <input type="date" name="bday" />
+              <span class="calendar-icon ">&#128197;</span>
+            </div>
+          </td>
+          <td id="add-due-date"></td>
 
 
-            <td>
-              <div id="tag-container">
-                <!-- Selected tags will be shown here -->
-                <input type="text" id="tag-input" placeholder="Add or select tags" autocomplete="off">
-              </div>
-              <div id="tag-list" class="dropdown">
-                <!-- Dropdown with tag suggestions -->
-              </div>
-            </td>
+          <td>
+            <div id="tag-container">
+              <!-- Selected tags will be shown here -->
+              <input type="text" id="tag-input" placeholder="Add or select tags" autocomplete="off">
+            </div>
+            <div id="tag-list" class="dropdown">
+              <!-- Dropdown with tag suggestions -->
+            </div>
+          </td>
 
-            <td><span class="status"><select name="" id="status">
-                  <option value="scheduled">Scheduled</option>
-                  <option value="in_progress">In progress</option>
-                  <option value="completed">Completed</option>
-                </select></span></td>
-            <td id="add-description"><textarea></textarea></td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
-      <div class="header">
-        <div class="submits">
-          <button class="submit" id="Add_todo">Add</button>
-        </div>
+          <td><span class="status"><select name="" id="status">
+                <option value="scheduled">Scheduled</option>
+                <option value="in_progress">In progress</option>
+                <option value="completed">Completed</option>
+              </select></span></td>
+          <td id="add-description"><textarea></textarea></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="header">
+      <div class="submits">
+        <button class="submit" id="Add_todo">Add</button>
       </div>
     </div>
+  </div>
 
 </body>
 <script type="module" src="/script/main.js"></script>

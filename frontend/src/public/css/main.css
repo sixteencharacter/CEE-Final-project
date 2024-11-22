@@ -633,3 +633,30 @@ textarea {
   border-radius: 5px;
   border: none;
 }
+
+#filterWrapper {
+  height : 250px;
+  /* border: 2px solid brown; */
+  width : 80%;
+  padding : 10px; 
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.hstack {
+  display : flex;
+  gap: 10px;
+  align-items: center;
+  flex-direction: row;
+}
+
+.filtertag-dropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 200px;
+}

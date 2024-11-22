@@ -15,6 +15,14 @@ document.getElementById("clearFilterButton").addEventListener("click", function(
   clearTable();
   loadData();
 });
+
+document.getElementById("showCanvasButton").addEventListener("click",()=>{
+  showFilterCanvas();
+})
+document.getElementById("hideCanvasButton").addEventListener("click",()=>{
+  hideFilterCanvas();
+})
+
 // Function to load data and display it in the table
 async function loadData() {
   let url = new URL("http://localhost:3222/todo");
@@ -31,7 +39,8 @@ async function loadData() {
   const endDateFrom = document.getElementById("endDateFrom").value;
   const endDateTo = document.getElementById("endDateTo").value;
   const tagsDropdown = document.getElementById("filterTags");
-  const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
+  // const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
+  const selectedTags = Array.from([]); // set this back to its main form
   console.log("Selected Tags:", selectedTags);
   const selectedStatus = document.getElementById("filterStatus").value;
   const title = document.getElementById("filterTitle").value;
@@ -82,8 +91,13 @@ function clearFilters() {
   document.getElementById("endDateTo").value = "";
 
   // Clear tags (multi-select dropdown)
-  const tagsDropdown = document.getElementById("filterTags");
-  Array.from(tagsDropdown.options).forEach(option => option.selected = false);
+  try {
+    const tagsDropdown = document.getElementById("filterTags");
+    Array.from(tagsDropdown.options).forEach(option => option.selected = false);
+  }
+  catch(e) {
+
+  } // remove this once finished
 
   // Clear status and title filters
   document.getElementById("filterStatus").value = "";
@@ -91,6 +105,7 @@ function clearFilters() {
 }
 
 async function populateTags() {
+  return; // remove this later when finished debugging
   const tagsDropdown = document.getElementById("filterTags");
     const requestOptions = {
         method: "GET",
@@ -638,3 +653,13 @@ function clearInputFields() {
       handleEdit(itemId, "tags", selectedTags);
     }
   });
+
+  function showFilterCanvas() {
+    document.getElementById("filterWrapper").style.display = "flex";
+    document.getElementById("showCanvasButton").style.display = "none";
+  }
+
+  function hideFilterCanvas() {
+    document.getElementById("filterWrapper").style.display = "none";
+    document.getElementById("showCanvasButton").style.display = "block";
+  }
