@@ -12,6 +12,7 @@ document.getElementById("applyFilterButton").addEventListener("click", function(
 });
 document.getElementById("clearFilterButton").addEventListener("click", function() {
   clearFilters();
+  clearTable();
   loadData();
 });
 // Function to load data and display it in the table
@@ -88,54 +89,54 @@ function clearFilters() {
   document.getElementById("filterStatus").value = "";
   document.getElementById("filterTitle").value = "";
 }
+async function populateTags() {
+  const tagsDropdown = document.getElementById("filterTags");
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
 
-const tagsDropdown = document.getElementById("filterTags");
-  const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-  };
+        try {
+            const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
+            if (response.ok) {
+                const data = await response.json(); // Assume the API returns an array of objects
 
-      try {
-          const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
-          if (response.ok) {
-              const data = await response.json(); // Assume the API returns an array of objects
+  // Extract unique tags
+  const allTags = new Set();
+  data.forEach(item => {
+      if (item.tags && Array.isArray(item.tags)) {
+          item.tags.forEach(tag => allTags.add(tag));
+      }
+  });
 
-// Extract unique tags
-const allTags = new Set();
-data.forEach(item => {
-    if (item.tags && Array.isArray(item.tags)) {
-        item.tags.forEach(tag => allTags.add(tag));
-    }
-});
+  // Clear existing options
+  tagsDropdown.innerHTML = "";
 
-// Clear existing options
-tagsDropdown.innerHTML = "";
-
-if (allTags.size > 0) {
-    // Populate with unique tags
-    allTags.forEach(tag => {
-        const option = document.createElement("option");
-        option.value = tag; // The value sent with the filter
-        option.textContent = tag; // The displayed name
-        tagsDropdown.appendChild(option);
-    });
-} else {
-    // Add "No Tags Available" when there are no tags
-    const noTagsOption = document.createElement("option");
-    noTagsOption.value = "";
-    noTagsOption.disabled = true;
-    noTagsOption.selected = true;
-    noTagsOption.textContent = "No Tags Available";
-    tagsDropdown.appendChild(noTagsOption);
+  if (allTags.size > 0) {
+      // Populate with unique tags
+      allTags.forEach(tag => {
+          const option = document.createElement("option");
+          option.value = tag; // The value sent with the filter
+          option.textContent = tag; // The displayed name
+          tagsDropdown.appendChild(option);
+      });
+  } else {
+      // Add "No Tags Available" when there are no tags
+      const noTagsOption = document.createElement("option");
+      noTagsOption.value = "";
+      noTagsOption.disabled = true;
+      noTagsOption.selected = true;
+      noTagsOption.textContent = "No Tags Available";
+      tagsDropdown.appendChild(noTagsOption);
+  }
+  } else {
+  console.error("Failed to fetch data:", response.statusText);
+  }
+  } catch (error) {
+  console.error("Error fetching data:", error);
+  }
 }
-} else {
-console.error("Failed to fetch data:", response.statusText);
-}
-} catch (error) {
-console.error("Error fetching data:", error);
-}
-
     
 
 // Function to add a row to the table for each item with editable fields
@@ -186,6 +187,7 @@ function addRowToTable(item) {
   };
 
   deleteCell.appendChild(deleteButton);
+  populateTags();
 }
 function deleteData(itemId) {
 
@@ -206,6 +208,7 @@ function deleteData(itemId) {
     })
     .then(result => console.log("Delete successful:", result))
     .catch(error => console.error("Delete failed:", error));
+  populateTags();
  }
 
 function makeDateEditable(cell, itemId, field, text) {
