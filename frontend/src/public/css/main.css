@@ -7,7 +7,7 @@
 
 body {
   
-  background-color: #fff0d6;
+  background-color: #f4ebe6;
   color: #000000;
   display: flex;
   flex-direction: column;
@@ -242,7 +242,10 @@ h1 {
 }
 
 .schedule-table tr:nth-child(even) {
-  background-color: #ffdcac;
+  background-color: #ebdcd3;
+}
+.schedule-table tr:nth-child(odd) {
+  background-color: #fff6f1;
 }
 
 
@@ -278,6 +281,31 @@ h1 {
 }
 
 #status option[value="completed"] {
+  background-color: rgb(204, 255, 204);
+  color: rgb(0, 0, 0);
+}
+
+#filterStatus{
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภายใน select */
+  background-color: rgb(255, 255, 255);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+#filterStatus option[value="scheduled"] {
+  background-color: rgb(255, 219, 212);
+  color: black;
+}
+
+#filterStatus option[value="In progress"] {
+  background-color: rgb(255, 255, 197);
+  color: black;
+}
+
+#filterStatus option[value="Completed"] {
   background-color: rgb(204, 255, 204);
   color: rgb(0, 0, 0);
 }
@@ -406,7 +434,7 @@ input[type="date"] {
   /* Black background */
   color: #000000;
   /* White text */
-  border: 1px solid #444;
+  border: none;
   /* Dark border */
   padding: 8px;
   /* Padding inside the input field */
@@ -483,12 +511,8 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-
   padding: 0px;
-
   color: #000;
-
-
 }
 
 
@@ -496,13 +520,9 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-
-  padding: 0px;
-
+  
   color: #000;
   border: none;
-
-
 }
 
 .tag {
@@ -546,3 +566,118 @@ textarea {
 .tag-item:hover {
   background-color: #f0f0f0;
 }
+
+#filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0px;
+  color: #000;
+}
+
+
+.filter-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  
+  color: #000;
+  border: none;
+}
+
+.filter {
+  background-color: #CBE4F9;
+  padding: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-filter {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+#filter-input {
+  border: none;
+  outline: none;
+  min-width: 100px;
+
+}
+
+#filter-list {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 12%;
+  max-height: 150px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10;
+  color: #000;
+}
+
+.filter-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.filter-item:hover {
+  background-color: #f0f0f0;
+}
+
+.tagSelect {
+  color: rgb(0, 0, 0);
+  /* สีตัวหนังสือภายใน select */
+  background-color: rgb(255, 255, 255);
+  /* สีพื้นหลังของ select */
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+#filterWrapper {
+  height : 250px;
+  /* border: 2px solid brown; */
+  width : 80%;
+  padding : 10px; 
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.hstack {
+  display : flex;
+  gap: 10px;
+  align-items: center;
+  flex-direction: row;
+}
+
+#f-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0px;
+  color: #000;
+}
+
+.f-dropdown-content {
+  display:none;
+  background-color: #FFF;
+  position: absolute;
+  width : 100%;
+  border-top: 1px solid #c7c7c7;
+  padding:10px;
+  border-radius: 4px;
+}
+
+.f-dropdown-content a {
+  color: black;
+  padding: 5px;
+  text-decoration: none;
+  display: block;
+}
+
+.f-dropdown-content a:hover {background-color: #ddd;}

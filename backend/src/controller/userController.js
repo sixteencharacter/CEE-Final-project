@@ -6,6 +6,13 @@ export const registerUser = async (req,res) => {
     const password = req.body.password;
     const salt = generateRandomSalt();
     const hashed_password = await hashPassword(password,salt);
+
+    const emailPattern = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    if(email.match(emailPattern) == null) {
+        res.status(500).send({success : false , reason : "This email is invalid or malformed"});
+        return;
+    }
+
     try {
         await User.create({
             "email" : email,
@@ -15,7 +22,7 @@ export const registerUser = async (req,res) => {
         res.status(200).send({success : true});
     }
     catch {
-        res.status(500).send({success : false , reason : "This email is already registered"})
+        res.status(500).send({success : false , reason : "This email is already registered"});
     }
 } 
 

@@ -6,10 +6,54 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-// document.getElementById("applyFilterButton").addEventListener("click", function() {
-//   clearTable();
-//   loadData();
-// });
+document.getElementById("applyFilterButton").addEventListener("click", function() {
+  clearTable();
+  loadData();
+});
+document.getElementById("clearFilterButton").addEventListener("click", function() {
+  clearFilters();
+  clearTable();
+  loadData();
+});
+
+document.getElementById("showCanvasButton").addEventListener("click",()=>{
+  showFilterCanvas();
+})
+document.getElementById("hideCanvasButton").addEventListener("click",()=>{
+  hideFilterCanvas();
+})
+
+document.getElementById("f-tag-input").addEventListener("keyup",(event)=>{
+  for(let x of document.getElementById("f-dropdown-content").children) {
+    if(x.innerHTML.trim().includes(event.target.value.trim()) || event.target.value.trim().length == 0) {
+      x.style.display  = "block";
+    }
+    else {
+      x.style.display = "none";
+    }
+  }
+  if(event.key === "Enter") {
+    let dataText = event.target.value.replaceAll(/\n/g,"");
+    if(dataText.length && !getAllFilterTags().includes(event.target.value.trim()) && getAllAvailableFilterTag().includes(event.target.value.trim())) {
+      addnewfilterTag(dataText);
+      event.target.value = "";
+      for(let x of document.getElementById("f-dropdown-content").children) {
+        x.style.display = "block";
+      }
+    }
+  }
+})
+
+document.getElementById("f-tag-input").addEventListener("focus",(event)=>{
+  document.getElementById("f-dropdown-content").style.display = "block";
+});
+
+document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
+  if(!Array.from(document.getElementById("f-dropdown-content").children).includes(event.relatedTarget)) {
+    document.getElementById("f-dropdown-content").style.display = "none";
+  }
+});
+
 
 // Function to load data and display it in the table
 async function loadData() {
@@ -21,25 +65,33 @@ async function loadData() {
       redirect: "follow"
   };
   
-  // Get filter values
-  // const startDateFrom = document.getElementById("startDateFrom").value;
-  // const startDateTo = document.getElementById("startDateTo").value;
-  // const endDateFrom = document.getElementById("endDateFrom").value;
-  // const endDateTo = document.getElementById("endDateTo").value;
-  // const tags = document.getElementById("filterTags").value;
+  //Get filter values
+  const startDateFrom = document.getElementById("startDateFrom").value;
+  const startDateTo = document.getElementById("startDateTo").value;
+  const endDateFrom = document.getElementById("endDateFrom").value;
+  const endDateTo = document.getElementById("endDateTo").value;
+  const tagsDropdown = document.getElementById("filterTags");
+  const selectedTags = getAllFilterTags();
+  console.log("Selected Tags:", selectedTags);
+  const selectedStatus = document.getElementById("filterStatus").value;
+  const title = document.getElementById("filterTitle").value;
 
   // Add filter parameters to the URL
-  // if (startDateFrom){ console.log(startDateFrom,format2Date(startDateFrom)); url.searchParams.append("startDateStart", formatDate(startDateFrom));}
-  // if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
-  // if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
-  // if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
-  //console.log(url.href);
+  if (startDateFrom) url.searchParams.append("startDateStart", formatDate(startDateFrom));
+  if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
+  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
+  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  if (selectedStatus) url.searchParams.append("status", selectedStatus);
 
-  // Handle tags (assume comma-separated input)
-  // if (tags) {
-  //     const tagsArray = tags.split(",").map(tag => tag.trim());
-  //     tagsArray.forEach(tag => url.searchParams.append("tags", tag));
-  // }
+  // Add selected tags to the URL
+  if (selectedTags.length > 0) {
+      url.searchParams.append("tags", selectedTags.join(","));
+  }
+console.log(url.href);
+  // Add title to the URL if provided
+  if (title) url.searchParams.append("title", title.trim());
+
+
 
   try {
       const response = await fetch(url, requestOptions);
@@ -61,6 +113,72 @@ function clearTable() {
       tableBody.removeChild(tableBody.firstChild);
   }
 }
+
+function clearFilters() {
+  // Clear date filters
+  document.getElementById("startDateFrom").value = "";
+  document.getElementById("startDateTo").value = "";
+  document.getElementById("endDateFrom").value = "";
+  document.getElementById("endDateTo").value = "";
+
+  document.getElementById("f-tag-container").replaceChildren();
+
+  // Clear status and title filters
+  document.getElementById("filterStatus").value = "";
+  document.getElementById("filterTitle").value = "";
+}
+
+async function populateTags() {
+  const tagsDropdown = document.getElementById("f-dropdown-content");
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
+
+        try {
+            const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
+            if (response.ok) {
+                const data = await response.json(); // Assume the API returns an array of objects
+
+  // Extract unique tags
+  const allTags = new Set();
+  data.forEach(item => {
+      if (item.tags && Array.isArray(item.tags)) {
+          item.tags.forEach(tag => allTags.add(tag));
+      }
+  });
+
+  // Clear existing options
+  tagsDropdown.innerHTML = "";
+
+  if (allTags.size > 0) {
+      // Populate with unique tags
+      allTags.forEach(tag => {
+          const option = document.createElement("a");
+          // option.value = tag; // The value sent with the filter
+          option.innerHTML = tag; // The displayed name
+          option.setAttribute("tabindex","-1");
+          tagsDropdown.appendChild(option);
+      });
+      for(let x of document.getElementById("f-dropdown-content").children) {
+        x.addEventListener("click",(event)=>{
+          document.getElementById("f-tag-input").value = "";
+          if(!getAllFilterTags().includes(event.target.innerHTML.trim())) {
+            addnewfilterTag(event.target.innerHTML.trim());
+          }
+          document.getElementById("f-dropdown-content").style.display = "none";
+        });
+      }
+  }
+  } else {
+  console.error("Failed to fetch data:", response.statusText);
+  }
+  } catch (error) {
+  console.error("Error fetching data:", error);
+  }
+}
+    
 
 // Function to add a row to the table for each item with editable fields
 function addRowToTable(item) {
@@ -110,6 +228,7 @@ function addRowToTable(item) {
   };
 
   deleteCell.appendChild(deleteButton);
+  populateTags();
 }
 function deleteData(itemId) {
 
@@ -130,6 +249,7 @@ function deleteData(itemId) {
     })
     .then(result => console.log("Delete successful:", result))
     .catch(error => console.error("Delete failed:", error));
+  populateTags();
  }
 
 function makeDateEditable(cell, itemId, field, text) {
@@ -181,7 +301,7 @@ function makeDateEditable(cell, itemId, field, text) {
   cell.addEventListener("click", showDateInput);
 }
 
-
+///////////////////////////////////////////////////////////////////TAG IN ROW /////////////////////////////////////////////////////////////////////////////
 function renderTagsWithDropdown(cell, itemId, tags) {
   // ถ้า itemId ไม่ถูกต้องให้แสดงข้อผิดพลาดและหยุดการทำงาน
   if (!itemId) {
@@ -206,9 +326,12 @@ function renderTagsWithDropdown(cell, itemId, tags) {
     removeButton.classList.add("remove-tag");
     removeButton.innerText = "✕";
     removeButton.addEventListener("click", () => updateTagList(itemId, tag, "remove", cell));
+    
 
     tagElement.appendChild(removeButton);
     cell.appendChild(tagElement);
+    
+    populateTags();
   });
 
   // เพิ่มช่อง input สำหรับการเพิ่มแท็กใหม่พร้อม dropdown
@@ -236,7 +359,7 @@ function showTagDropdown(input, cell, itemId) {
   dropdown.classList.add("tag-dropdown");
 
   // กรองแท็กจาก predefinedTags ที่ยังไม่ได้ถูกเลือกใน cell นี้
-  const filteredTags = predefinedTags.filter(tag => 
+  const filteredTags = availableTags.filter(tag => 
     tag.toLowerCase().includes(input.value.toLowerCase()) && 
     !Array.from(cell.querySelectorAll(".tag")).some(el => el.innerText === tag)
   );
@@ -280,17 +403,34 @@ async function updateTagList(itemId, tag, action, cell) {
     // ตรวจสอบว่าฟิลด์ tags มีรูปแบบที่ถูกต้อง
     if (!item.tags || !Array.isArray(item.tags)) {
       console.error("Invalid tags format for item:", item);
+      populateTags();
       return;
     }
 
-    // อัปเดตรายการแท็กโดยเพิ่มหรือลบแท็กตาม action
-    const updatedTags = action === "add" ? [...item.tags, tag] : item.tags.filter(t => t !== tag);
-    await handleEdit(itemId, "tags", updatedTags); // อัปเดตแท็กบนเซิร์ฟเวอร์
-    renderTagsWithDropdown(cell, itemId, updatedTags); // แสดงผลแท็กใหม่ใน cell
+    // ตรวจสอบการดำเนินการเพิ่มหรือเอาออก
+    console.log(item.tags);
+    let updatedTags;
+    if (action === "add") {
+      if (item.tags.includes(tag)) {
+        console.warn(`Tag "${tag}" is already in the list.`);
+        return; // ถ้าแท็กมีอยู่แล้ว ไม่ทำอะไร
+      }
+      updatedTags = [...item.tags, tag]; // เพิ่มแท็กใหม่
+    } else if (action === "remove") {
+      updatedTags = item.tags.filter(t => t !== tag); // ลบแท็กที่ตรงกัน
+    }
+
+    // ส่งคำขอเพื่ออัปเดตข้อมูลแท็กบนเซิร์ฟเวอร์
+    await handleEdit(itemId, "tags", updatedTags); 
+    
+    // แสดงผลแท็กใหม่ใน cell
+    renderTagsWithDropdown(cell, itemId, updatedTags); 
+    populateTags();
   } catch (error) {
     console.error(`Error ${action === "add" ? "adding" : "removing"} tag:`, error);
   }
 }
+
 
 ////////////////////////////////////STATUS////////////////////////////////////////////////////////
 
@@ -539,3 +679,45 @@ function clearInputFields() {
       handleEdit(itemId, "tags", selectedTags);
     }
   });
+
+  function showFilterCanvas() {
+    document.getElementById("filterWrapper").style.display = "flex";
+    document.getElementById("showCanvasButton").style.display = "none";
+  }
+
+  function hideFilterCanvas() {
+    document.getElementById("filterWrapper").style.display = "none";
+    document.getElementById("showCanvasButton").style.display = "block";
+  }
+
+  function addnewfilterTag(tagName) {
+    let newTag = document.createElement("span");
+    newTag.className = "tag"
+    newTag.innerHTML = tagName;
+    let closeButton = document.createElement("span")
+    closeButton.className = "remove-tag";
+    closeButton.innerHTML = "✕";
+    newTag.appendChild(closeButton);
+    closeButton.addEventListener("click",(event)=>{
+      event.target.parentNode.remove();
+    });
+    document.getElementById("f-tag-container").appendChild(newTag);
+  }
+
+  function  getAllFilterTags() {
+    let tagContainer = document.getElementById("f-tag-container");
+    let s = new Set();
+    for(let x of tagContainer.children) {
+      s.add(x.innerHTML.replace(/<.*>.*<\/.*>/,"").trim());
+    }
+    return Array.from(s);
+  }
+
+  function getAllAvailableFilterTag() {
+    let tagSelector = document.getElementById("f-dropdown-content");
+    let ret = [];
+    for(let x of tagSelector.children) {
+      ret.push(x.innerHTML.trim());
+    }
+    return ret;
+  }
