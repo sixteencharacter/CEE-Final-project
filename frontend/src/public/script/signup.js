@@ -10,7 +10,7 @@ const doRegister = async () => {
     const re_password = document.getElementsByName("re_password")[0].value
     
     if(password != re_password) {
-        displayAlertModal("Error","UnExpected Error occurred , please try again later");
+        displayAlertModal("Error","Password didn't match , please try again");
         return;
     }
     
@@ -29,7 +29,7 @@ const doRegister = async () => {
     try {
         const ret = (await fetch(`${BACKEND_URL}/user/register`, requestOptions));
         if(ret.ok) {
-            window.location.replace("/");
+            window.location.replace("/login.html");
         }
         else {
             displayAlertModal("Error",(await ret.json()).reason);

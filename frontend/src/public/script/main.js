@@ -6,7 +6,7 @@ const doLogout = () => {
 }
 
 const doChangeGroup = () => {
-    localStorage.setItem("groupToken",null);
+    localStorage.removeItem("groupToken");
     window.location.replace("/group_select.html");
 }
 
@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded",()=>{
     else if(localStorage.getItem("groupToken") === null) {
         window.location.replace("/group_select.html")
     }
-
-    
 
     document.getElementById("logoutBtn").addEventListener("click",()=>{
         doLogout();
