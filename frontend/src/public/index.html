@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div style="width:82.5%;margin-bottom: 10px;">
+  <div style="width:80%;margin-bottom: 10px;">
     <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
   </div>
 
@@ -62,9 +62,14 @@
     </div>
     <div class="hstack">
       <label for="endDateTo">Tags:</label> 
-      <div contenteditable="true" style="padding:7px;background-color: #FFF;min-width:150px;border-radius:6px;">
+      <div id="f-tag-container" class="tag-container" style="max-width: 1000px;flex-wrap: nowrap;overflow-x: scroll;">
+        <!-- <span class="tag"> Test tag<span class="remove-tag">✕</span></span> -->
       </div>
-      <!-- <div id="dropdown" class="filtertag-dropdown" style="display: block;"></div> -->
+      <div class="dropdown" id="f-dropdown">
+        <input type="text" class="input_tag" id="f-tag-input"/>
+        <div class="f-dropdown-content" id="f-dropdown-content">
+        </div>
+      </div>
     </div>
     <div class="hstack">
       <div style="display: flex; gap: 15px;">

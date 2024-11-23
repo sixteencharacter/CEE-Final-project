@@ -652,11 +652,29 @@ textarea {
   flex-direction: row;
 }
 
-.filtertag-dropdown {
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  max-height: 150px;
-  overflow-y: auto;
-  width: 200px;
+#f-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0px;
+  color: #000;
 }
+
+.f-dropdown-content {
+  display:none;
+  background-color: #FFF;
+  position: absolute;
+  width : 100%;
+  border-top: 1px solid #c7c7c7;
+  padding:10px;
+  border-radius: 4px;
+}
+
+.f-dropdown-content a {
+  color: black;
+  padding: 5px;
+  text-decoration: none;
+  display: block;
+}
+
+.f-dropdown-content a:hover {background-color: #ddd;}

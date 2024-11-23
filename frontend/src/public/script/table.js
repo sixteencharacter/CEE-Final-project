@@ -23,6 +23,38 @@ document.getElementById("hideCanvasButton").addEventListener("click",()=>{
   hideFilterCanvas();
 })
 
+document.getElementById("f-tag-input").addEventListener("keyup",(event)=>{
+  for(let x of document.getElementById("f-dropdown-content").children) {
+    if(x.innerHTML.trim().includes(event.target.value.trim()) || event.target.value.trim().length == 0) {
+      x.style.display  = "block";
+    }
+    else {
+      x.style.display = "none";
+    }
+  }
+  if(event.key === "Enter") {
+    let dataText = event.target.value.replaceAll(/\n/g,"");
+    if(dataText.length && !getAllFilterTags().includes(event.target.value.trim()) && getAllAvailableFilterTag().includes(event.target.value.trim())) {
+      addnewfilterTag(dataText);
+      event.target.value = "";
+      for(let x of document.getElementById("f-dropdown-content").children) {
+        x.style.display = "block";
+      }
+    }
+  }
+})
+
+document.getElementById("f-tag-input").addEventListener("focus",(event)=>{
+  document.getElementById("f-dropdown-content").style.display = "block";
+});
+
+document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
+  if(!Array.from(document.getElementById("f-dropdown-content").children).includes(event.relatedTarget)) {
+    document.getElementById("f-dropdown-content").style.display = "none";
+  }
+});
+
+
 // Function to load data and display it in the table
 async function loadData() {
   let url = new URL("http://localhost:3222/todo");
@@ -39,8 +71,7 @@ async function loadData() {
   const endDateFrom = document.getElementById("endDateFrom").value;
   const endDateTo = document.getElementById("endDateTo").value;
   const tagsDropdown = document.getElementById("filterTags");
-  // const selectedTags = Array.from(tagsDropdown.selectedOptions).map(option => option.value);
-  const selectedTags = Array.from([]); // set this back to its main form
+  const selectedTags = getAllFilterTags();
   console.log("Selected Tags:", selectedTags);
   const selectedStatus = document.getElementById("filterStatus").value;
   const title = document.getElementById("filterTitle").value;
@@ -90,14 +121,7 @@ function clearFilters() {
   document.getElementById("endDateFrom").value = "";
   document.getElementById("endDateTo").value = "";
 
-  // Clear tags (multi-select dropdown)
-  try {
-    const tagsDropdown = document.getElementById("filterTags");
-    Array.from(tagsDropdown.options).forEach(option => option.selected = false);
-  }
-  catch(e) {
-
-  } // remove this once finished
+  document.getElementById("f-tag-container").replaceChildren();
 
   // Clear status and title filters
   document.getElementById("filterStatus").value = "";
@@ -105,8 +129,7 @@ function clearFilters() {
 }
 
 async function populateTags() {
-  return; // remove this later when finished debugging
-  const tagsDropdown = document.getElementById("filterTags");
+  const tagsDropdown = document.getElementById("f-dropdown-content");
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -132,20 +155,22 @@ async function populateTags() {
   if (allTags.size > 0) {
       // Populate with unique tags
       allTags.forEach(tag => {
-          const option = document.createElement("option");
-          option.value = tag; // The value sent with the filter
-          option.textContent = tag; // The displayed name
+          const option = document.createElement("a");
+          // option.value = tag; // The value sent with the filter
+          option.innerHTML = tag; // The displayed name
+          option.setAttribute("tabindex","-1");
           tagsDropdown.appendChild(option);
       });
-  } else {
-      // Add "No Tags Available" when there are no tags
-      const noTagsOption = document.createElement("option");
-      noTagsOption.value = "";
-      noTagsOption.disabled = true;
-      noTagsOption.selected = true;
-      noTagsOption.textContent = "No Tags Available";
-      tagsDropdown.appendChild(noTagsOption);
-  } 
+      for(let x of document.getElementById("f-dropdown-content").children) {
+        x.addEventListener("click",(event)=>{
+          document.getElementById("f-tag-input").value = "";
+          if(!getAllFilterTags().includes(event.target.innerHTML.trim())) {
+            addnewfilterTag(event.target.innerHTML.trim());
+          }
+          document.getElementById("f-dropdown-content").style.display = "none";
+        });
+      }
+  }
   } else {
   console.error("Failed to fetch data:", response.statusText);
   }
@@ -662,4 +687,36 @@ function clearInputFields() {
   function hideFilterCanvas() {
     document.getElementById("filterWrapper").style.display = "none";
     document.getElementById("showCanvasButton").style.display = "block";
+  }
+
+  function addnewfilterTag(tagName) {
+    let newTag = document.createElement("span");
+    newTag.className = "tag"
+    newTag.innerHTML = tagName;
+    let closeButton = document.createElement("span")
+    closeButton.className = "remove-tag";
+    closeButton.innerHTML = "✕";
+    newTag.appendChild(closeButton);
+    closeButton.addEventListener("click",(event)=>{
+      event.target.parentNode.remove();
+    });
+    document.getElementById("f-tag-container").appendChild(newTag);
+  }
+
+  function  getAllFilterTags() {
+    let tagContainer = document.getElementById("f-tag-container");
+    let s = new Set();
+    for(let x of tagContainer.children) {
+      s.add(x.innerHTML.replace(/<.*>.*<\/.*>/,"").trim());
+    }
+    return Array.from(s);
+  }
+
+  function getAllAvailableFilterTag() {
+    let tagSelector = document.getElementById("f-dropdown-content");
+    let ret = [];
+    for(let x of tagSelector.children) {
+      ret.push(x.innerHTML.trim());
+    }
+    return ret;
   }
