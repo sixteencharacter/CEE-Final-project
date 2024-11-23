@@ -208,3 +208,15 @@ button:hover {
   from { opacity: 1; display: flex;}
   to { opacity: 0; display: none;}
 }
+
+#logoutButton {
+  border : 1px solid #8c6d52;
+  background-color: #FFF !important;
+  color: #8c6d52;
+}
+
+#logoutButton:hover {
+  border : 1px solid #8c6d52;
+  background-color: #8c6d52 !important;
+  color: #FFF;
+}

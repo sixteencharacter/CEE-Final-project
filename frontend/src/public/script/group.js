@@ -1,6 +1,11 @@
 import { BACKEND_URL } from "./config.js";
 import { closeModal, displayAlertModal } from "./modal.js";
 
+const doLogout = () => {
+    localStorage.clear();
+    window.location.replace("/login.html");
+}
+
 const dojoinGroup = async () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -33,7 +38,13 @@ const dojoinGroup = async () => {
     }
 }
 
+
 document.addEventListener("DOMContentLoaded",async ()=>{
+
+    if(localStorage.getItem("accessToken") === null) {
+        window.location.replace("/login.html")
+    }
+
     document.getElementById("joinButton").addEventListener("click",async ()=>{
         await dojoinGroup();
     })
@@ -46,6 +57,10 @@ document.addEventListener("DOMContentLoaded",async ()=>{
 
     document.getElementsByClassName("close-modal")[0].addEventListener("click",()=>{
         closeModal();
+    })
+
+    document.getElementById("logoutButton").addEventListener("click",()=>{
+        doLogout();
     })
 })
 
