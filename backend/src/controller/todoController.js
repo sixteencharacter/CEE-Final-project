@@ -11,7 +11,7 @@ export const getAnFilter = async (req, res) => {
 
     try {
         const filter = {};
-        if (req.query.title) filter.title = { $regex: ".*" + req.query.title + ".*" };
+        if (req.query.title) filter.title = { $regex: ".*" + req.query.title + ".*" , $options: "i"};
         if (req.query.status) filter.status = req.query.status;
         
         // Modify dueDate and startDate to accept ranges
