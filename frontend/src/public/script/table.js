@@ -80,6 +80,7 @@ function addRowToTable(item) {
     else if(field == "date"){
       // console.log(item["dueDate"]);
       var text = convertDateToISO(item["dueDate"]);
+      cell.contentEditable="false";
       cell.innerText = calculateDaysUntil(text);
       
     }
@@ -95,7 +96,7 @@ function addRowToTable(item) {
       cell.innerText = item[field] || ""; // Default to empty if null
       cell.addEventListener("blur", () => handleEdit(item._id, field, cell.innerText));
     }
-    addEventListener("event name",(event)=>{})
+    //addEventListener("event name",(event)=>{})
     
   });
   const deleteCell = row.insertCell();
@@ -149,7 +150,8 @@ function makeDateEditable(cell, itemId, field, text) {
         cell.innerText = formatDate(newDate); // Update display in DD/MM/YYYY format
         await handleEdit(itemId, field, formatDate(newDate)); // Save updated date to server
         if(field == "dueDate"){
-            parentNode.children[3].innerHTML = calculateDaysUntil(newDate);
+          const calculatedDays = calculateDaysUntil(newDate);
+          parentNode.children[3].innerHTML = calculatedDays;
         }
         
       } else {
