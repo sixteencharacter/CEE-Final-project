@@ -1,9 +1,11 @@
+import { BACKEND_URL } from "./config.js";
+
 // Initialize headers for API requests
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 myHeaders.append("Accept", "application/json");
 myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}+${localStorage.getItem("groupToken")}`);
-const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
+//const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
 document.getElementById("applyFilterButton").addEventListener("click", function() {
@@ -57,7 +59,7 @@ document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
 
 // Function to load data and display it in the table
 async function loadData() {
-  let url = new URL("http://localhost:3222/todo");
+  let url = new URL(`${BACKEND_URL}/todo`);
 
   const requestOptions = {
       method: "GET",
@@ -137,7 +139,7 @@ async function populateTags() {
     };
 
         try {
-            const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
+            const response = await fetch(`${BACKEND_URL}/todo`, requestOptions); // Replace with your API endpoint
             if (response.ok) {
                 const data = await response.json(); // Assume the API returns an array of objects
 
@@ -170,6 +172,8 @@ async function populateTags() {
           document.getElementById("f-dropdown-content").style.display = "none";
         });
       }
+
+      
   }
   } else {
   console.error("Failed to fetch data:", response.statusText);
@@ -240,7 +244,7 @@ function deleteData(itemId) {
 
   // 😄
 
-  fetch(`http://localhost:3222/todo/${itemId}`, requestOptions)
+  fetch(`${BACKEND_URL}/todo/${itemId}`, requestOptions)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
@@ -394,7 +398,7 @@ function closeTagDropdown(cell) {
 async function updateTagList(itemId, tag, action, cell) {
   try {
     // เรียกข้อมูล item เพื่อให้แน่ใจว่า field `tags` มีอยู่
-    const response = await fetch(`http://localhost:3222/todo/${itemId}`, {
+    const response = await fetch(`${BACKEND_URL}/todo/${itemId}`, {
       method: "GET",
       headers: myHeaders
     });
@@ -498,7 +502,7 @@ async function handleEdit(id, field, value) {
   };
 
   try {
-    const response = await fetch(`http://localhost:3222/todo/${id}`, requestOptions);
+    const response = await fetch(`${BACKEND_URL}/todo/${id}`, requestOptions);
     if (response.ok) {
       console.log(`Updated ${field} to ${value}`);
     } else {
@@ -539,7 +543,7 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
   };
 
   try {
-    const response = await fetch("http://localhost:3222/todo", requestOptions);
+    const response = await fetch(`${BACKEND_URL}/todo`, requestOptions);
     if (response.ok) {
       const result = await response.json();
       addRowToTable(result);
@@ -574,8 +578,15 @@ function clearInputFields() {
 
 
   // Array ของแท็กที่มีอยู่
-  const availableTags = ["JavaScript", "CSS", "HTML", "React", "Node.js"];
+  
+  let availableTags = getAllAvailableFilterTag();
+  console.log(availableTags);
+
+    
+  
   let selectedTags = []; // Array สำหรับเก็บแท็กที่ถูกเลือก
+ 
+  
 
   document.addEventListener("DOMContentLoaded", () => {
     const tagContainer = document.getElementById("tag-container");
@@ -583,7 +594,9 @@ function clearInputFields() {
     const tagList = document.getElementById("tag-list");
 
     // อัปเดต dropdown list ของแท็กที่มีอยู่
-    updateTagDropdown();
+    tagInput.addEventListener("focus", updateTagDropdown); // แสดงเมื่อคลิก
+    tagInput.addEventListener("input", handleTagInput); // กรองแท็กขณะพิมพ์
+    //updateTagDropdown();
 
     // เมื่อผู้ใช้กด Enter เพื่อเพิ่มแท็กใหม่
     tagInput.addEventListener("keydown", (e) => {
@@ -604,37 +617,65 @@ function clearInputFields() {
       }
     });
 
+    
     function updateTagDropdown() {
+      // ล้างรายการแท็กเก่าใน Dropdown
       tagList.innerHTML = "";
+    
+      // วนลูปสร้างแท็กจาก availableTags
+      
       availableTags.forEach((tag) => {
         const tagItem = document.createElement("div");
-        tagItem.classList.add("tag-item");
+        tagItem.classList.add("tag-item"); // เพิ่มคลาสสำหรับการตกแต่ง
         tagItem.innerText = tag;
+    
+        // คลิกที่แท็กเพื่อเพิ่มใน selectedTags
         tagItem.addEventListener("click", () => {
-          addTag(tag);
-          tagInput.value = "";
+          addTag(tag); // เพิ่มแท็กลงใน selectedTags
+          tagInput.value = ""; // ล้างค่าช่องกรอกหลังเลือก
+          tagList.style.display = "none"; // ซ่อน Dropdown หลังเลือกแท็ก
         });
+    
+        // เพิ่มแท็กเข้า Dropdown
         tagList.appendChild(tagItem);
       });
+      updateTagsInDatabase();
+    
+      // แสดง Dropdown
       tagList.style.display = "block";
     }
+    
 
     function handleTagInput() {
       const query = tagInput.value.toLowerCase();
-      const filteredTags = availableTags.filter((tag) => tag.toLowerCase().includes(query));
+      const filteredTags = availableTags.filter((tag) =>
+        tag.toLowerCase().includes(query)
+      );
+    
+      // ล้างรายการแท็กเก่า
       tagList.innerHTML = "";
+    
+      // วนลูปสร้างแท็กที่กรองได้
       filteredTags.forEach((tag) => {
         const tagItem = document.createElement("div");
         tagItem.classList.add("tag-item");
         tagItem.innerText = tag;
+    
+        // คลิกที่แท็กเพื่อเพิ่ม
         tagItem.addEventListener("click", () => {
-          addTag(tag);
-          tagInput.value = "";
+          addTag(tag); // เพิ่มแท็ก
+          tagInput.value = ""; // ล้างค่าช่องกรอก
+          tagList.style.display = "none"; // ซ่อน Dropdown
         });
+    
+        // เพิ่มแท็กที่กรองเข้า Dropdown
         tagList.appendChild(tagItem);
       });
+    
+      // แสดง Dropdown
       tagList.style.display = "block";
     }
+    
 
     function addTag(tag) {
       if (tag && !selectedTags.includes(tag)) {
@@ -703,7 +744,7 @@ function clearInputFields() {
     });
     document.getElementById("f-tag-container").appendChild(newTag);
   }
-
+  
   function  getAllFilterTags() {
     let tagContainer = document.getElementById("f-tag-container");
     let s = new Set();
@@ -718,6 +759,19 @@ function clearInputFields() {
     let ret = [];
     for(let x of tagSelector.children) {
       ret.push(x.innerHTML.trim());
+      
+    }
+    
+    
+    return ret;
+  }
+  
+  function getAllAvailableFilterTag2() {
+    let tagSelector = document.getElementById("f-dropdown-content");
+    let ret = [];
+    for(let x of tagSelector.children) {
+      ret.push(x.innerHTML.trim());
+      
     }
     return ret;
   }

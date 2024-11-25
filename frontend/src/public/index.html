@@ -20,68 +20,68 @@
     </div>
   </div>
 
-  <div style="width:80%;margin-bottom: 10px;">
-    <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
-  </div>
-
-  <div id="filterWrapper" style="display:none">
-    <div class="hstack">
-      <div>
-        <label for="filterTitle">Title:</label>
-        <input type="text" id="filterTitle" placeholder="Filter by Title">
-      </div>
-      <div>
-        <label for="filterStatus">Status:</label>
-        <select id="filterStatus">
-          <option value="">No Filters</option>
-          <option value="scheduled">Scheduled</option>
-          <option value="In progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </div>
-    </div>
-    <div class="hstack">
-      <div>
-        <label for="startDateFrom">Start Date From:</label>
-        <input type="date" id="startDateFrom">
-      </div>
-      <div>
-        <label for="startDateTo">Start Date To:</label>
-        <input type="date" id="startDateTo">
-      </div>
-    </div>
-    <div class="hstack">
-      <div>
-        <label for="endDateFrom">End Date From:</label>
-        <input type="date" id="endDateFrom">
-      </div>
-      <div>
-        <label for="endDateTo">End Date To:</label>
-        <input type="date" id="endDateTo">
-      </div>
-    </div>
-    <div class="hstack">
-      <label for="endDateTo">Tags:</label> 
-      <div id="f-tag-container" class="tag-container" style="max-width: 1000px;flex-wrap: nowrap;overflow-x: scroll;">
-        <!-- <span class="tag"> Test tag<span class="remove-tag">✕</span></span> -->
-      </div>
-      <div class="dropdown" id="f-dropdown">
-        <input type="text" class="input_tag" id="f-tag-input"/>
-        <div class="f-dropdown-content" id="f-dropdown-content">
-        </div>
-      </div>
-    </div>
-    <div class="hstack">
-      <div style="display: flex; gap: 15px;">
-        <button id="applyFilterButton">Apply Filters</button>
-        <button id="clearFilterButton">Clear Filters</button>
-        <button style="background-color: #964B00;" id="hideCanvasButton">Hide filter canvas</button>
-      </div>
-    </div>
-  </div>
 
 
   <div class="container">
+    <div style="width:115%;margin-bottom: 10px;">
+      <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
+    </div>
+  
+    <div id="filterWrapper" style="display:none">
+      <div class="hstack">
+        <div>
+          <label for="filterTitle">Title:</label>
+          <input type="text" id="filterTitle" placeholder="Filter by Title">
+        </div>
+        <div>
+          <label for="filterStatus">Status:</label>
+          <select id="filterStatus">
+            <option value="">No Filters</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="In progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="hstack">
+        <div>
+          <label for="startDateFrom">Start Date From:</label>
+          <input type="date" id="startDateFrom">
+        </div>
+        <div>
+          <label for="startDateTo">Start Date To:</label>
+          <input type="date" id="startDateTo">
+        </div>
+      </div>
+      <div class="hstack">
+        <div>
+          <label for="endDateFrom">End Date From:</label>
+          <input type="date" id="endDateFrom">
+        </div>
+        <div>
+          <label for="endDateTo">End Date To:</label>
+          <input type="date" id="endDateTo">
+        </div>
+      </div>
+      <div class="hstack">
+        <label for="endDateTo">Tags:</label> 
+        <div id="f-tag-container" class="tag-container" style="max-width: 1000px;flex-wrap: nowrap;overflow-x: scroll;">
+          <!-- <span class="tag"> Test tag<span class="remove-tag">✕</span></span> -->
+        </div>
+        <div class="dropdown" id="f-dropdown">
+          <input type="text" class="input_tag" id="f-tag-input"/>
+          <div class="f-dropdown-content" id="f-dropdown-content">
+          </div>
+        </div>
+      </div>
+      <div class="hstack">
+        <div style="display: flex; gap: 15px;">
+          <button id="applyFilterButton">Apply Filters</button>
+          <button id="clearFilterButton">Clear Filters</button>
+          <button style="background-color: #964B00;" id="hideCanvasButton">Hide filter canvas</button>
+        </div>
+      </div>
+    </div>
     <div class="header">
       <h1>🔥 Study Schedule</h1>
       <!-- <div class="tabs">
