@@ -81,8 +81,8 @@ async function loadData() {
   // Add filter parameters to the URL
   if (startDateFrom) url.searchParams.append("startDateStart", formatDate(startDateFrom));
   if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
-  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
-  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  if (endDateFrom) url.searchParams.append("dueDateStart", formatDate(endDateFrom));
+  if (endDateTo) url.searchParams.append("dueDateEnd", formatDate(endDateTo));
   if (selectedStatus) url.searchParams.append("status", selectedStatus);
 
   // Add selected tags to the URL
