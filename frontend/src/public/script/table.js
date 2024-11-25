@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "./config.js";
+
 // Initialize headers for API requests
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -57,7 +59,7 @@ document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
 
 // Function to load data and display it in the table
 async function loadData() {
-  let url = new URL("http://localhost:3222/todo");
+  let url = new URL(`${BACKEND_URL}/todo`);
 
   const requestOptions = {
       method: "GET",
@@ -137,7 +139,7 @@ async function populateTags() {
     };
 
         try {
-            const response = await fetch("http://localhost:3222/todo", requestOptions); // Replace with your API endpoint
+            const response = await fetch(`${BACKEND_URL}/todo`, requestOptions); // Replace with your API endpoint
             if (response.ok) {
                 const data = await response.json(); // Assume the API returns an array of objects
 
@@ -242,7 +244,7 @@ function deleteData(itemId) {
 
   // 😄
 
-  fetch(`http://localhost:3222/todo/${itemId}`, requestOptions)
+  fetch(`${BACKEND_URL}/todo/${itemId}`, requestOptions)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
@@ -396,7 +398,7 @@ function closeTagDropdown(cell) {
 async function updateTagList(itemId, tag, action, cell) {
   try {
     // เรียกข้อมูล item เพื่อให้แน่ใจว่า field `tags` มีอยู่
-    const response = await fetch(`http://localhost:3222/todo/${itemId}`, {
+    const response = await fetch(`${BACKEND_URL}/todo/${itemId}`, {
       method: "GET",
       headers: myHeaders
     });
@@ -500,7 +502,7 @@ async function handleEdit(id, field, value) {
   };
 
   try {
-    const response = await fetch(`http://localhost:3222/todo/${id}`, requestOptions);
+    const response = await fetch(`${BACKEND_URL}/todo/${id}`, requestOptions);
     if (response.ok) {
       console.log(`Updated ${field} to ${value}`);
     } else {
@@ -541,7 +543,7 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
   };
 
   try {
-    const response = await fetch("http://localhost:3222/todo", requestOptions);
+    const response = await fetch(`${BACKEND_URL}/todo`, requestOptions);
     if (response.ok) {
       const result = await response.json();
       addRowToTable(result);
