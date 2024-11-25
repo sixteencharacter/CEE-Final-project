@@ -27,7 +27,7 @@ body {
   width: 100%;
   max-width: 400px;
   /* Constrains width on larger screens */
-  padding: 40px;
+  padding: 0px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: #fffaf3;
@@ -640,7 +640,7 @@ textarea {
 #filterWrapper {
   height : 250px;
   /* border: 2px solid brown; */
-  width : 80%;
+  width : 115%;
   padding : 10px; 
   margin-bottom: 20px;
   display: flex;
