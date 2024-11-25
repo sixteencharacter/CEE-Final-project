@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "./config.js";
-
+let availableTags;
 // Initialize headers for API requests
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -150,6 +150,10 @@ async function populateTags() {
           item.tags.forEach(tag => allTags.add(tag));
       }
   });
+  
+  
+
+  
 
   // Clear existing options
   tagsDropdown.innerHTML = "";
@@ -172,6 +176,7 @@ async function populateTags() {
           document.getElementById("f-dropdown-content").style.display = "none";
         });
       }
+      availableTags = Array.from(allTags);
 
       
   }
@@ -578,9 +583,9 @@ function clearInputFields() {
 
 
   // Array ของแท็กที่มีอยู่
+  //populateTags();
+  //let availableTags = console.log(Array.from(allTags));
   
-  let availableTags = getAllAvailableFilterTag();
-  console.log(availableTags);
 
     
   
