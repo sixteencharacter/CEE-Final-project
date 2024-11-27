@@ -170,6 +170,10 @@ async function populateTags() {
           document.getElementById("f-dropdown-content").style.display = "none";
         });
       }
+      ////////////////////////////////////////////////////////////////////
+      
+      ///////////////////////////////////////////////////////////////////
+
   }
   } else {
   console.error("Failed to fetch data:", response.statusText);
