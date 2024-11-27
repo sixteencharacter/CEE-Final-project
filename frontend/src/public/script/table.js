@@ -615,7 +615,8 @@ function clearInputFields() {
   document.querySelector("#add-start-date input[type='date']").value = "";
   document.getElementById("tag-container").innerHTML = '<input type="text" id="tag-input" placeholder="Add a tag and press Enter" />';
   document.getElementById("status").value = "0";
-  document.getElementById("add-description").value = "";
+  document.querySelector("#add-description textarea").value = "";
+  
 }
 
 
