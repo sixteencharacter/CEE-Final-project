@@ -7,8 +7,8 @@
 
 body {
   
-  background-color: #f4ebe6;
-  color: #000000;
+  background-color: #FFF7E6;
+  color: #333333;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -237,15 +237,15 @@ h1 {
 }
 
 .schedule-table th {
-  background-color: #fffaf3;
+  background-color: #ffe6b3;
   color: #000000;
 }
 
 .schedule-table tr:nth-child(even) {
-  background-color: #ebdcd3;
+  background-color: #fffaed;
 }
 .schedule-table tr:nth-child(odd) {
-  background-color: #fff6f1;
+  background-color: #fff1ce;
 }
 
 
@@ -284,6 +284,23 @@ h1 {
   background-color: rgb(204, 255, 204);
   color: rgb(0, 0, 0);
 }
+
+/* ตั้งค่าสีพื้นหลังตามสถานะในแต่ละเซลล์ */
+#table-status-scheduled {
+  background-color: #FFD9D4; /* สีชมพูอ่อนสำหรับ "Scheduled" */
+  color: #000; /* สีข้อความ */
+}
+
+#table-status-in-progress {
+  background-color: #FFFFC5; /* สีเหลืองอ่อนสำหรับ "In progress" */
+  color: #000; /* สีข้อความ */
+}
+
+#table-status-completed {
+  background-color: #CCFFCC; /* สีเขียวอ่อนสำหรับ "Completed" */
+  color: #000; /* สีข้อความ */
+}
+
 
 #filterStatus{
   color: rgb(0, 0, 0);
@@ -640,7 +657,7 @@ textarea {
 #filterWrapper {
   height : 250px;
   /* border: 2px solid brown; */
-  width : 115%;
+  width : 114%;
   padding : 10px; 
   margin-bottom: 20px;
   display: flex;

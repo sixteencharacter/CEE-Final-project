@@ -311,6 +311,24 @@ function makeDateEditable(cell, itemId, field, text) {
   // Attach the showDateInput function as the click event handler
   cell.addEventListener("click", showDateInput);
 }
+////////////////////////////////////////////////////RANDOM COLOR///////////////////////////////////////////////////////////////////
+const tagColors = new Map();
+
+function getRandomColor(tagName) {
+  // ถ้ามีสีใน Map แล้ว ให้ใช้สีเดิม
+  if (tagColors.has(tagName)) {
+    return tagColors.get(tagName);
+  }
+
+  // สุ่มสีใหม่โดยใช้ hash จากชื่อแท็ก
+  const hash = [...tagName].reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+  const randomColor = `hsl(${hash % 360}, 70%, 80%)`; // สร้างสีแบบ HSL
+
+  // เก็บสีที่สุ่มไว้ใน Map
+  tagColors.set(tagName, randomColor);
+
+  return randomColor;
+}
 
 ///////////////////////////////////////////////////////////////////TAG IN ROW /////////////////////////////////////////////////////////////////////////////
 function renderTagsWithDropdown(cell, itemId, tags) {
@@ -322,7 +340,6 @@ function renderTagsWithDropdown(cell, itemId, tags) {
 
   cell.classList.add("tag-container1");
 
-  
   // ล้างเนื้อหาปัจจุบันใน cell
   cell.innerHTML = "";
 
@@ -332,17 +349,18 @@ function renderTagsWithDropdown(cell, itemId, tags) {
     tagElement.classList.add("tag");
     tagElement.innerText = tag;
 
+    // กำหนดสีพื้นหลังให้แท็ก
+    tagElement.style.backgroundColor = getRandomColor(tag);
+    tagElement.style.color = "#000"; // สีข้อความให้เป็นสีดำ (อ่านง่าย)
+
     // ปุ่มลบแท็ก
     const removeButton = document.createElement("span");
     removeButton.classList.add("remove-tag");
     removeButton.innerText = "✕";
     removeButton.addEventListener("click", () => updateTagList(itemId, tag, "remove", cell));
-    
 
     tagElement.appendChild(removeButton);
     cell.appendChild(tagElement);
-    
-    populateTags();
   });
 
   // เพิ่มช่อง input สำหรับการเพิ่มแท็กใหม่พร้อม dropdown
@@ -369,7 +387,7 @@ function showTagDropdown(input, cell, itemId) {
   const dropdown = document.createElement("div");
   dropdown.classList.add("tag-dropdown");
 
-  // กรองแท็กจาก predefinedTags ที่ยังไม่ได้ถูกเลือกใน cell นี้
+  // กรองแท็กที่ยังไม่ได้ถูกเลือกใน cell นี้
   const filteredTags = availableTags.filter(tag => 
     tag.toLowerCase().includes(input.value.toLowerCase()) && 
     !Array.from(cell.querySelectorAll(".tag")).some(el => el.innerText === tag)
@@ -450,6 +468,7 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
   const statusOptions = ["Scheduled", "In progress", "Completed"];
   const select = document.createElement("select");
   select.classList.add("status1");
+
   statusOptions.forEach(status => {
     const option = document.createElement("option");
     option.value = status;
@@ -457,11 +476,34 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
     if (status === currentStatus) option.selected = true;
     select.appendChild(option);
   });
-  
 
-  select.addEventListener("change", () => handleEdit(itemId, "status", select.value));
+  // อัปเดตสีของเซลล์ตามสถานะ
+  function updateCellStyle(status) {
+    cell.classList.remove(
+      "table-status-scheduled",
+      "table-status-in-progress",
+      "table-status-completed"
+    );
+    if (status === "Scheduled") {
+      select.id = `table-status-scheduled`;
+    } else if (status === "In progress") {
+      select.id = `table-status-in-progress`;
+    } else if (status === "Completed") {
+      select.id = `table-status-completed`;
+    }
+  }
+
+  // ตั้งค่าเริ่มต้น
+  updateCellStyle(currentStatus);
+
+  select.addEventListener("change", () => {
+    handleEdit(itemId, "status", select.value);
+    updateCellStyle(select.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
+  });
+
   cell.appendChild(select);
 }
+
 /////////////////////////////////////////////////////คำนวนเวลาที่เหลือ/////////////////////////////////////////////////////
 // Utility function to format dates
 function formatDate(dateString) {
