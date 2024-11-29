@@ -633,6 +633,8 @@ input[type="date"]::placeholder {
   /* Adjust size of the icon */
   color: #888;
   /* Optional: Set icon color */
+  z-index: 3;
+  cursor : pointer;
 }
 
 
