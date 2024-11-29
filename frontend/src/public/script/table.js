@@ -8,14 +8,12 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 //const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-document.getElementById("applyFilterButton").addEventListener("click", function() {
-  clearTable();
-  loadData();
+document.getElementById("applyFilterButton").addEventListener("click", async function() {
+  await loadData();
 });
-document.getElementById("clearFilterButton").addEventListener("click", function() {
+document.getElementById("clearFilterButton").addEventListener("click", async function() {
   clearFilters();
-  clearTable();
-  loadData();
+  await loadData();
 });
 
 document.getElementById("showCanvasButton").addEventListener("click",()=>{
@@ -59,6 +57,7 @@ document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
 
 // Function to load data and display it in the table
 async function loadData() {
+  console.log("loading data");
   let url = new URL(`${BACKEND_URL}/todo`);
 
   const requestOptions = {
@@ -98,6 +97,7 @@ console.log(url.href);
   try {
       const response = await fetch(url, requestOptions);
       if (response.ok) {
+          clearTable();
           const data = await response.json();
           data.forEach(item => addRowToTable(item)); // Add each item to the table
       } else {
@@ -106,14 +106,17 @@ console.log(url.href);
   } catch (error) {
       console.error("Error:", error);
   }
+  console.log("data loaded")
 }
 
 // Function to clear the table
 function clearTable() {
+  console.log("Clearing table");
   const tableBody = document.getElementById("main-table-body");
   while (tableBody.firstChild) {
       tableBody.removeChild(tableBody.firstChild);
   }
+  console.log("Cleared table");
 }
 
 function clearFilters() {
@@ -478,27 +481,27 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
   });
 
   // อัปเดตสีของเซลล์ตามสถานะ
-  function updateCellStyle(status) {
+  function updateCellStyle(cell,status) {
     cell.classList.remove(
       "table-status-scheduled",
       "table-status-in-progress",
       "table-status-completed"
     );
-    if (status === "Scheduled") {
-      select.id = `table-status-scheduled`;
-    } else if (status === "In progress") {
-      select.id = `table-status-in-progress`;
-    } else if (status === "Completed") {
-      select.id = `table-status-completed`;
+    if (status === "scheduled") {
+      select.classList.add(`table-status-scheduled`);
+    } else if (status === "in_progress") {
+      select.classList.add(`table-status-in-progress`);
+    } else if (status === "completed") {
+      select.classList.add(`table-status-completed`);
     }
   }
 
   // ตั้งค่าเริ่มต้น
-  updateCellStyle(currentStatus);
+  updateCellStyle(select,currentStatus);
 
-  select.addEventListener("change", () => {
-    handleEdit(itemId, "status", select.value);
-    updateCellStyle(select.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
+  select.addEventListener("change", (event) => {
+    handleEdit(itemId, "status", event.target.value);
+    updateCellStyle(event.target,event.target.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
   });
 
   cell.appendChild(select);

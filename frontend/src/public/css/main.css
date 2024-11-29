@@ -5,22 +5,42 @@
   box-sizing: border-box;
 }
 
-body {
+@media only screen and (min-width: 10px) {
+  .container {
+    width: 100%;
+    max-width: 100px;
+    justify-items: center;
+    justify-content: center;
   
-  background-color: #FFF7E6;
-  color: #333333;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  font-family: "Oxygen Mono", monospace;
-  font-weight: 400;
-  font-style: normal;
-
-  padding: 20px;
-
+  }
+  
 }
+@media only screen and (min-width: 1200px) {
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    justify-items: center;
+    justify-content: center;
+  
+  }
+  body {
+  
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  
+    padding: 20px;
+  
+  }
+}
+
 
 /* Login Container */
 .login-container {
@@ -151,16 +171,26 @@ button:hover {
 }
 
 /* Apply the animation to the login container */
+/* @media only screen and (min-width: 10px) {
+  .container {
+    width: 100%;
+    max-width: 50px;
+    justify-items: center;
+    justify-content: center;
+  
+  }
+} */
 
 
 
-.container {
+
+/* .container {
   width: 100%;
   max-width: 1200px;
   justify-items: center;
   justify-content: center;
 
-}
+} */
 
 .header {
   text-align: center;
@@ -222,6 +252,105 @@ h1 {
   width: 100%;
   justify-content: space-between;
 }
+table {
+  width: 100%; /* ใช้พื้นที่เต็มหน้าจอ */
+  min-width: 600px; /* ขนาดขั้นต่ำของตาราง */
+  border-collapse: collapse; /* ลดระยะห่างระหว่างเส้นขอบ */
+  margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
+  overflow-x: hidden; /* เปิดใช้งานการเลื่อนแนวนอน */
+   /* แสดงเป็น block เพื่อให้ scroll ได้ */
+}
+@media only screen and (max-width: 5000px) {
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    justify-items: center;
+    justify-content: center;
+  
+  }
+  body {
+  
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  
+    padding: 20px;
+  
+  }
+  .Show_filter_Button{
+    width:112%;
+    margin-bottom: 10px;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  table {
+    min-width: 700px; /* บังคับให้ตารางเลื่อนแนวนอน */
+    overflow-x: auto;
+    display: block;
+  }
+  body {
+  
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  
+    padding: 50px;
+  
+  }
+  h1 {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .Show_filter_Button{
+    width:112%;
+    margin-bottom: 10px;
+    padding-left: 50px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  table {
+    min-width: 400px; /* บังคับให้ตารางเลื่อนแนวนอน */
+    overflow-x: auto;
+    display: block;
+  }
+  body {
+  
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  
+    padding: 50px;
+  
+  }
+  .Show_filter_Button{
+    width:112%;
+    margin-bottom: 10px;
+    padding-left: 0px;
+  }
+}
+
 
 .schedule-table {
   width: 100%;
@@ -286,19 +415,19 @@ h1 {
 }
 
 /* ตั้งค่าสีพื้นหลังตามสถานะในแต่ละเซลล์ */
-#table-status-scheduled {
-  background-color: #FFD9D4; /* สีชมพูอ่อนสำหรับ "Scheduled" */
-  color: #000; /* สีข้อความ */
+.table-status-scheduled {
+  background-color: #FFD9D4 !important;  /* สีชมพูอ่อนสำหรับ "Scheduled" */
+  color: #000 !important; /* สีข้อความ */
 }
 
-#table-status-in-progress {
-  background-color: #FFFFC5; /* สีเหลืองอ่อนสำหรับ "In progress" */
-  color: #000; /* สีข้อความ */
+.table-status-in-progress {
+  background-color: #FFFFC5 !important; /* สีเหลืองอ่อนสำหรับ "In progress" */
+  color: #000 !important; /* สีข้อความ */
 }
 
-#table-status-completed {
-  background-color: #CCFFCC; /* สีเขียวอ่อนสำหรับ "Completed" */
-  color: #000; /* สีข้อความ */
+.table-status-completed {
+  background-color: #CCFFCC !important; /* สีเขียวอ่อนสำหรับ "Completed" */
+  color: #000 !important; /* สีข้อความ */
 }
 
 
@@ -317,12 +446,12 @@ h1 {
   color: black;
 }
 
-#filterStatus option[value="In progress"] {
+#filterStatus option[value="in_progress"] {
   background-color: rgb(255, 255, 197);
   color: black;
 }
 
-#filterStatus option[value="Completed"] {
+#filterStatus option[value="completed"] {
   background-color: rgb(204, 255, 204);
   color: rgb(0, 0, 0);
 }
@@ -337,17 +466,17 @@ h1 {
   border: none;
 }
 
-.status1 option[value="Scheduled"] {
+.status1 option[value="scheduled"] {
   background-color: rgb(255, 219, 212);
   color: black;
 }
 
-.status1 option[value="In_progress"] {
+.status1 option[value="in_progress"] {
   background-color: rgb(255, 255, 197);
   color: black;
 }
 
-.status1 option[value="Completed"] {
+.status1 option[value="completed"] {
   background-color: rgb(204, 255, 204);
   color: black;
 }
@@ -678,6 +807,10 @@ textarea {
   gap: 5px;
   padding: 0px;
   color: #000;
+}
+
+#f-tag-container::-webkit-scrollbar {
+  display: none;
 }
 
 .f-dropdown-content {
