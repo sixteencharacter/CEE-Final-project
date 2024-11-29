@@ -446,12 +446,12 @@ table {
   color: black;
 }
 
-#filterStatus option[value="In progress"] {
+#filterStatus option[value="in_progress"] {
   background-color: rgb(255, 255, 197);
   color: black;
 }
 
-#filterStatus option[value="Completed"] {
+#filterStatus option[value="completed"] {
   background-color: rgb(204, 255, 204);
   color: rgb(0, 0, 0);
 }
@@ -466,17 +466,17 @@ table {
   border: none;
 }
 
-.status1 option[value="Scheduled"] {
+.status1 option[value="scheduled"] {
   background-color: rgb(255, 219, 212);
   color: black;
 }
 
-.status1 option[value="In progress"] {
+.status1 option[value="in_progress"] {
   background-color: rgb(255, 255, 197);
   color: black;
 }
 
-.status1 option[value="Completed"] {
+.status1 option[value="completed"] {
   background-color: rgb(204, 255, 204);
   color: black;
 }

@@ -465,15 +465,15 @@ async function updateTagList(itemId, tag, action, cell) {
 
 
 function renderStatusDropdown(cell, itemId, currentStatus) {
-  const statusOptions = ["Scheduled", "In progress", "Completed"];
+  const statusOptions = [["Scheduled","scheduled"], ["In progress","in_progress"], ["Completed","completed"]];
   const select = document.createElement("select");
   select.classList.add("status1");
 
   statusOptions.forEach(status => {
     const option = document.createElement("option");
-    option.value = status;
-    option.text = status;
-    if (status === currentStatus) option.selected = true;
+    option.value = status[1];
+    option.text = status[0];
+    if (status[1] === currentStatus) option.selected = true;
     select.appendChild(option);
   });
 
@@ -484,11 +484,11 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
       "table-status-in-progress",
       "table-status-completed"
     );
-    if (status === "Scheduled") {
+    if (status === "scheduled") {
       select.id = `table-status-scheduled`;
-    } else if (status === "In progress") {
+    } else if (status === "in_progress") {
       select.id = `table-status-in-progress`;
-    } else if (status === "Completed") {
+    } else if (status === "completed") {
       select.id = `table-status-completed`;
     }
   }
