@@ -554,6 +554,7 @@ async function handleEdit(id, field, value) {
   };
 
   try {
+    if(id === "PUT_ITEM_ID_HERE") return;
     const response = await fetch(`${BACKEND_URL}/todo/${id}`, requestOptions);
     if (response.ok) {
       console.log(`Updated ${field} to ${value}`);
