@@ -415,19 +415,19 @@ table {
 }
 
 /* ตั้งค่าสีพื้นหลังตามสถานะในแต่ละเซลล์ */
-#table-status-scheduled {
-  background-color: #FFD9D4; /* สีชมพูอ่อนสำหรับ "Scheduled" */
-  color: #000; /* สีข้อความ */
+.table-status-scheduled {
+  background-color: #FFD9D4 !important;  /* สีชมพูอ่อนสำหรับ "Scheduled" */
+  color: #000 !important; /* สีข้อความ */
 }
 
-#table-status-in-progress {
-  background-color: #FFFFC5; /* สีเหลืองอ่อนสำหรับ "In progress" */
-  color: #000; /* สีข้อความ */
+.table-status-in-progress {
+  background-color: #FFFFC5 !important; /* สีเหลืองอ่อนสำหรับ "In progress" */
+  color: #000 !important; /* สีข้อความ */
 }
 
-#table-status-completed {
-  background-color: #CCFFCC; /* สีเขียวอ่อนสำหรับ "Completed" */
-  color: #000; /* สีข้อความ */
+.table-status-completed {
+  background-color: #CCFFCC !important; /* สีเขียวอ่อนสำหรับ "Completed" */
+  color: #000 !important; /* สีข้อความ */
 }
 
 
@@ -807,6 +807,10 @@ textarea {
   gap: 5px;
   padding: 0px;
   color: #000;
+}
+
+#f-tag-container::-webkit-scrollbar {
+  display: none;
 }
 
 .f-dropdown-content {

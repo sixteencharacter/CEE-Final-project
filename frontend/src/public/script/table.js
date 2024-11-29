@@ -481,27 +481,27 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
   });
 
   // อัปเดตสีของเซลล์ตามสถานะ
-  function updateCellStyle(status) {
+  function updateCellStyle(cell,status) {
     cell.classList.remove(
       "table-status-scheduled",
       "table-status-in-progress",
       "table-status-completed"
     );
     if (status === "scheduled") {
-      select.id = `table-status-scheduled`;
+      select.classList.add(`table-status-scheduled`);
     } else if (status === "in_progress") {
-      select.id = `table-status-in-progress`;
+      select.classList.add(`table-status-in-progress`);
     } else if (status === "completed") {
-      select.id = `table-status-completed`;
+      select.classList.add(`table-status-completed`);
     }
   }
 
   // ตั้งค่าเริ่มต้น
-  updateCellStyle(currentStatus);
+  updateCellStyle(select,currentStatus);
 
-  select.addEventListener("change", () => {
-    handleEdit(itemId, "status", select.value);
-    updateCellStyle(select.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
+  select.addEventListener("change", (event) => {
+    handleEdit(itemId, "status", event.target.value);
+    updateCellStyle(event.target,event.target.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
   });
 
   cell.appendChild(select);
