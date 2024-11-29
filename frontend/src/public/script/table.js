@@ -484,11 +484,11 @@ function renderStatusDropdown(cell, itemId, currentStatus) {
       "table-status-in-progress",
       "table-status-completed"
     );
-    if (status === "Scheduled") {
+    if (status === "scheduled") {
       select.id = `table-status-scheduled`;
-    } else if (status === "In progress") {
+    } else if (status === "in_progress") {
       select.id = `table-status-in-progress`;
-    } else if (status === "Completed") {
+    } else if (status === "completed") {
       select.id = `table-status-completed`;
     }
   }
