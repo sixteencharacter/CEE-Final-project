@@ -288,12 +288,36 @@ table {
     width:112%;
     margin-bottom: 10px;
   }
+  #tag-list {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 12%;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+    color: #000000;
+  }
 }
 @media only screen and (max-width: 1200px) {
   table {
     min-width: 700px; /* บังคับให้ตารางเลื่อนแนวนอน */
     overflow-x: auto;
     display: block;
+  }
+  #tag-list {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 120%;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+    color: #000000;
   }
   body {
   
@@ -346,6 +370,35 @@ table {
   }
   .Show_filter_Button{
     width:112%;
+    margin-bottom: 10px;
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  table {
+    min-width: 200px; /* บังคับให้ตารางเลื่อนแนวนอน */
+    overflow-x: auto;
+    display: block;
+  }
+  body {
+  
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  
+    padding: 30px;
+  
+  }
+  .Show_filter_Button{
+    width:100%;
     margin-bottom: 10px;
     padding-left: 0px;
   }
@@ -692,7 +745,7 @@ textarea {
   min-width: 100px;
 
 }
-
+/* 
 #tag-list {
   position: absolute;
   background-color: #ffffff;
@@ -704,7 +757,7 @@ textarea {
   display: none;
   z-index: 10;
   color: #000;
-}
+} */
 
 .tag-item {
   padding: 5px;
