@@ -566,6 +566,19 @@ async function handleEdit(id, field, value) {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".date-input-containe r").forEach((container) => {
+    container.addEventListener("click", (event) => {
+      
+      const dateInput = container.querySelector("input[type='date']"); // Select the date input inside the container
+      if (dateInput) {
+        
+        dateInput.focus(); // Focus the input to open the calendar
+        dateInput.showPicker();
+      }
+    });
+  });
+});
 ////////////////////////////////////////////////การเพื่มข้อมูล//////////////////////////////////////////////////////////////
 document.getElementById("Add_todo").addEventListener("click", async () => {
   const title = document.getElementById("add-title").querySelector("input").value;
@@ -601,6 +614,8 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
       const result = await response.json();
       addRowToTable(result);
       clearInputFields();
+
+      attachCalendarIconListeners();
     } else {
       console.error("Failed to post data:", response.statusText);
     }
@@ -608,6 +623,8 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
     console.error("Error:", error);
   }
 });
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -618,14 +635,21 @@ function clearInputFields() {
   document.querySelector("#add-date input[type='date']").value = "";
   document.querySelector("#add-start-date input[type='date']").value = "";
   document.getElementById("tag-container").innerHTML = '<input type="text" id="tag-input" placeholder="Add a tag and press Enter" />';
-  document.getElementById("status").value = "0";
+  document.getElementById("status").value = "scheduled";
   document.querySelector("#add-description textarea").value = "";
   
 }
-
-
-
-
+// Add event listener to calendar icons for dynamically created DOM
+function attachCalendarIconListeners() {
+  document.querySelectorAll(".date-input-container").forEach((container) => {
+    container.addEventListener("click", (event) => {
+      const dateInput = container.querySelector("#add-start-date input[type='date']");
+      if (dateInput) {
+        dateInput.focus();
+      }
+    });
+  });
+}
 
 
 
