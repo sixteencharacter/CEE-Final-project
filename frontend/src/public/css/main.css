@@ -351,6 +351,34 @@ table {
   }
 }
 
+@media only screen and (max-width: 400px) {
+  table {
+    min-width: 200px; /* บังคับให้ตารางเลื่อนแนวนอน */
+    overflow-x: auto;
+    display: block;
+  }
+  body {
+
+    background-color: #FFF7E6;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-family: "Oxygen Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+
+    padding: 30px;
+
+  }
+  .Show_filter_Button{
+    width:100%;
+    margin-bottom: 10px;
+    padding-left: 0px;
+  }
+}
 
 .schedule-table {
   width: 100%;
