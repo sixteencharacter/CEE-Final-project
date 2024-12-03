@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     email: {
-        type : String
+        type : String,
+        unique : true
     },
     salt : {
         type : String
