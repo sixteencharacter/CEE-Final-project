@@ -614,7 +614,7 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
       const result = await response.json();
       addRowToTable(result);
       clearInputFields();
-
+      assignListenterOnInput();
       attachCalendarIconListeners();
     } else {
       console.error("Failed to post data:", response.statusText);
@@ -637,7 +637,6 @@ function clearInputFields() {
   document.getElementById("tag-container").innerHTML = '<input type="text" id="tag-input" placeholder="Add a tag and press Enter" />';
   document.getElementById("status").value = "scheduled";
   document.querySelector("#add-description textarea").value = "";
-  
 }
 // Add event listener to calendar icons for dynamically created DOM
 function attachCalendarIconListeners() {
@@ -664,8 +663,6 @@ function attachCalendarIconListeners() {
   
   let selectedTags = []; // Array สำหรับเก็บแท็กที่ถูกเลือก
  
-  
-
   document.addEventListener("DOMContentLoaded", () => {
     const tagContainer = document.getElementById("tag-container");
     const tagInput = document.getElementById("tag-input");
@@ -857,4 +854,145 @@ function attachCalendarIconListeners() {
       
     }
     return ret;
+  }
+
+  function assignListenterOnInput() {
+
+    selectedTags = [];
+
+    const tagContainer = document.getElementById("tag-container");
+    const tagInput = document.getElementById("tag-input");
+    const tagList = document.getElementById("tag-list");
+
+    // อัปเดต dropdown list ของแท็กที่มีอยู่
+    tagInput.addEventListener("focus", updateTagDropdown); // แสดงเมื่อคลิก
+    tagInput.addEventListener("input", handleTagInput); // กรองแท็กขณะพิมพ์
+    //updateTagDropdown();
+
+    // เมื่อผู้ใช้กด Enter เพื่อเพิ่มแท็กใหม่
+    tagInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTag(tagInput.value);
+        tagInput.value = ""; // ล้างค่าใน input หลังจากเพิ่มแท็ก
+      }
+    });
+
+    // เมื่อพิมพ์เพื่อแสดงและกรองแท็ก
+    tagInput.addEventListener("input", handleTagInput);
+
+    // คลิกภายนอกเพื่อปิด dropdown
+    document.addEventListener("click", (e) => {
+      if (!tagContainer.contains(e.target)) {
+        tagList.style.display = "none";
+      }
+    });
+
+    
+    function updateTagDropdown() {
+      // ล้างรายการแท็กเก่าใน Dropdown
+      tagList.innerHTML = "";
+    
+      // วนลูปสร้างแท็กจาก availableTags
+      
+      try {
+        availableTags.forEach((tag) => {
+          const tagItem = document.createElement("div");
+          tagItem.classList.add("tag-item"); // เพิ่มคลาสสำหรับการตกแต่ง
+          tagItem.innerText = tag;
+      
+          // คลิกที่แท็กเพื่อเพิ่มใน selectedTags
+          tagItem.addEventListener("click", () => {
+            addTag(tag); // เพิ่มแท็กลงใน selectedTags
+            tagInput.value = ""; // ล้างค่าช่องกรอกหลังเลือก
+            tagList.style.display = "none"; // ซ่อน Dropdown หลังเลือกแท็ก
+          });
+      
+          // เพิ่มแท็กเข้า Dropdown
+          tagList.appendChild(tagItem);
+        });
+        updateTagsInDatabase();
+      
+        // แสดง Dropdown
+        tagList.style.display = "block";
+      }
+      catch(e) {
+        console.log(e);
+      }
+    }
+    
+
+    function handleTagInput() {
+      const query = tagInput.value.toLowerCase();
+      const filteredTags = (availableTags ?? Array.from([])).filter((tag) =>
+        tag.toLowerCase().includes(query)
+      );
+    
+      // ล้างรายการแท็กเก่า
+      tagList.innerHTML = "";
+    
+      // วนลูปสร้างแท็กที่กรองได้
+      filteredTags.forEach((tag) => {
+        const tagItem = document.createElement("div");
+        tagItem.classList.add("tag-item");
+        tagItem.innerText = tag;
+    
+        // คลิกที่แท็กเพื่อเพิ่ม
+        tagItem.addEventListener("click", () => {
+          addTag(tag); // เพิ่มแท็ก
+          tagInput.value = ""; // ล้างค่าช่องกรอก
+          tagList.style.display = "none"; // ซ่อน Dropdown
+        });
+    
+        // เพิ่มแท็กที่กรองเข้า Dropdown
+        tagList.appendChild(tagItem);
+      });
+    
+      // แสดง Dropdown
+      tagList.style.display = "block";
+    }
+    
+
+    function addTag(tag) {
+      if (tag && !selectedTags.includes(tag)) {
+        selectedTags.push(tag);
+        if (!(availableTags ?? []).includes(tag)) {
+          availableTags.push(tag); // เพิ่มแท็กใหม่ใน availableTags หากเป็นแท็กใหม่
+        }
+        renderTags();
+        updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังเพิ่มแท็กใหม่
+      }
+    }
+
+    function removeTag(tag) {
+      selectedTags = selectedTags.filter((t) => t !== tag);
+      renderTags();
+      updateTagsInDatabase(); // อัปเดตในฐานข้อมูลหลังลบแท็ก
+    }
+
+    function renderTags() {
+      const existingTags = Array.from(tagContainer.querySelectorAll(".tag"));
+      existingTags.forEach((tagElement) => tagElement.remove());
+
+      selectedTags.forEach((tag) => {
+        const tagElement = document.createElement("span");
+        tagElement.classList.add("tag");
+        tagElement.innerText = tag;
+
+        // ปุ่มลบแท็ก
+        const removeButton = document.createElement("span");
+        removeButton.classList.add("remove-tag");
+        removeButton.innerText = "✕";
+        removeButton.addEventListener("click", () => removeTag(tag));
+
+        tagElement.appendChild(removeButton);
+        tagContainer.insertBefore(tagElement, tagInput);
+      });
+    }
+
+    // ฟังก์ชันเพื่ออัปเดตแท็กในฐานข้อมูลโดยใช้ handleEdit
+    function updateTagsInDatabase() {
+      const itemId = "PUT_ITEM_ID_HERE"; // แทนที่ด้วย ID ของ item
+      handleEdit(itemId, "tags", selectedTags);
+    }
   }
