@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "./config.js";
-
+let availableTags;
 // Initialize headers for API requests
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -8,14 +8,12 @@ myHeaders.append("Authorization", `Bearer ${localStorage.getItem("accessToken")}
 //const predefinedTags = ["JavaScript", "CSS", "HTML", "React", "Node.js", "Backend", "Frontend"];
 // Load data when DOM is ready
 document.addEventListener("DOMContentLoaded", loadData);
-document.getElementById("applyFilterButton").addEventListener("click", function() {
-  clearTable();
-  loadData();
+document.getElementById("applyFilterButton").addEventListener("click", async function() {
+  await loadData();
 });
-document.getElementById("clearFilterButton").addEventListener("click", function() {
+document.getElementById("clearFilterButton").addEventListener("click", async function() {
   clearFilters();
-  clearTable();
-  loadData();
+  await loadData();
 });
 
 document.getElementById("showCanvasButton").addEventListener("click",()=>{
@@ -59,6 +57,7 @@ document.getElementById("f-tag-input").addEventListener("focusout",(event)=>{
 
 // Function to load data and display it in the table
 async function loadData() {
+  console.log("loading data");
   let url = new URL(`${BACKEND_URL}/todo`);
 
   const requestOptions = {
@@ -81,8 +80,8 @@ async function loadData() {
   // Add filter parameters to the URL
   if (startDateFrom) url.searchParams.append("startDateStart", formatDate(startDateFrom));
   if (startDateTo) url.searchParams.append("startDateEnd", formatDate(startDateTo));
-  if (endDateFrom) url.searchParams.append("endDateStart", formatDate(endDateFrom));
-  if (endDateTo) url.searchParams.append("endDateEnd", formatDate(endDateTo));
+  if (endDateFrom) url.searchParams.append("dueDateStart", formatDate(endDateFrom));
+  if (endDateTo) url.searchParams.append("dueDateEnd", formatDate(endDateTo));
   if (selectedStatus) url.searchParams.append("status", selectedStatus);
 
   // Add selected tags to the URL
@@ -98,6 +97,7 @@ console.log(url.href);
   try {
       const response = await fetch(url, requestOptions);
       if (response.ok) {
+          clearTable();
           const data = await response.json();
           data.forEach(item => addRowToTable(item)); // Add each item to the table
       } else {
@@ -106,14 +106,17 @@ console.log(url.href);
   } catch (error) {
       console.error("Error:", error);
   }
+  console.log("data loaded")
 }
 
 // Function to clear the table
 function clearTable() {
+  console.log("Clearing table");
   const tableBody = document.getElementById("main-table-body");
   while (tableBody.firstChild) {
       tableBody.removeChild(tableBody.firstChild);
   }
+  console.log("Cleared table");
 }
 
 function clearFilters() {
@@ -150,6 +153,10 @@ async function populateTags() {
           item.tags.forEach(tag => allTags.add(tag));
       }
   });
+  
+  
+
+  
 
   // Clear existing options
   tagsDropdown.innerHTML = "";
@@ -173,7 +180,10 @@ async function populateTags() {
         });
       }
 
+      availableTags = Array.from(allTags);
+
       
+
   }
   } else {
   console.error("Failed to fetch data:", response.statusText);
@@ -304,6 +314,24 @@ function makeDateEditable(cell, itemId, field, text) {
   // Attach the showDateInput function as the click event handler
   cell.addEventListener("click", showDateInput);
 }
+////////////////////////////////////////////////////RANDOM COLOR///////////////////////////////////////////////////////////////////
+const tagColors = new Map();
+
+function getRandomColor(tagName) {
+  // ถ้ามีสีใน Map แล้ว ให้ใช้สีเดิม
+  if (tagColors.has(tagName)) {
+    return tagColors.get(tagName);
+  }
+
+  // สุ่มสีใหม่โดยใช้ hash จากชื่อแท็ก
+  const hash = [...tagName].reduce((acc, char) => char.charCodeAt(0) + acc, 0);
+  const randomColor = `hsl(${hash % 360}, 70%, 80%)`; // สร้างสีแบบ HSL
+
+  // เก็บสีที่สุ่มไว้ใน Map
+  tagColors.set(tagName, randomColor);
+
+  return randomColor;
+}
 
 ///////////////////////////////////////////////////////////////////TAG IN ROW /////////////////////////////////////////////////////////////////////////////
 function renderTagsWithDropdown(cell, itemId, tags) {
@@ -315,7 +343,6 @@ function renderTagsWithDropdown(cell, itemId, tags) {
 
   cell.classList.add("tag-container1");
 
-  
   // ล้างเนื้อหาปัจจุบันใน cell
   cell.innerHTML = "";
 
@@ -325,17 +352,18 @@ function renderTagsWithDropdown(cell, itemId, tags) {
     tagElement.classList.add("tag");
     tagElement.innerText = tag;
 
+    // กำหนดสีพื้นหลังให้แท็ก
+    tagElement.style.backgroundColor = getRandomColor(tag);
+    tagElement.style.color = "#000"; // สีข้อความให้เป็นสีดำ (อ่านง่าย)
+
     // ปุ่มลบแท็ก
     const removeButton = document.createElement("span");
     removeButton.classList.add("remove-tag");
     removeButton.innerText = "✕";
     removeButton.addEventListener("click", () => updateTagList(itemId, tag, "remove", cell));
-    
 
     tagElement.appendChild(removeButton);
     cell.appendChild(tagElement);
-    
-    populateTags();
   });
 
   // เพิ่มช่อง input สำหรับการเพิ่มแท็กใหม่พร้อม dropdown
@@ -362,7 +390,7 @@ function showTagDropdown(input, cell, itemId) {
   const dropdown = document.createElement("div");
   dropdown.classList.add("tag-dropdown");
 
-  // กรองแท็กจาก predefinedTags ที่ยังไม่ได้ถูกเลือกใน cell นี้
+  // กรองแท็กที่ยังไม่ได้ถูกเลือกใน cell นี้
   const filteredTags = availableTags.filter(tag => 
     tag.toLowerCase().includes(input.value.toLowerCase()) && 
     !Array.from(cell.querySelectorAll(".tag")).some(el => el.innerText === tag)
@@ -440,21 +468,45 @@ async function updateTagList(itemId, tag, action, cell) {
 
 
 function renderStatusDropdown(cell, itemId, currentStatus) {
-  const statusOptions = ["Scheduled", "In progress", "Completed"];
+  const statusOptions = [["Scheduled","scheduled"], ["In progress","in_progress"], ["Completed","completed"]];
   const select = document.createElement("select");
   select.classList.add("status1");
+
   statusOptions.forEach(status => {
     const option = document.createElement("option");
-    option.value = status;
-    option.text = status;
-    if (status === currentStatus) option.selected = true;
+    option.value = status[1];
+    option.text = status[0];
+    if (status[1] === currentStatus) option.selected = true;
     select.appendChild(option);
   });
-  
 
-  select.addEventListener("change", () => handleEdit(itemId, "status", select.value));
+  // อัปเดตสีของเซลล์ตามสถานะ
+  function updateCellStyle(cell,status) {
+    cell.classList.remove(
+      "table-status-scheduled",
+      "table-status-in-progress",
+      "table-status-completed"
+    );
+    if (status === "scheduled") {
+      select.classList.add(`table-status-scheduled`);
+    } else if (status === "in_progress") {
+      select.classList.add(`table-status-in-progress`);
+    } else if (status === "completed") {
+      select.classList.add(`table-status-completed`);
+    }
+  }
+
+  // ตั้งค่าเริ่มต้น
+  updateCellStyle(select,currentStatus);
+
+  select.addEventListener("change", (event) => {
+    handleEdit(itemId, "status", event.target.value);
+    updateCellStyle(event.target,event.target.value); // อัปเดตสีเมื่อเปลี่ยนสถานะ
+  });
+
   cell.appendChild(select);
 }
+
 /////////////////////////////////////////////////////คำนวนเวลาที่เหลือ/////////////////////////////////////////////////////
 // Utility function to format dates
 function formatDate(dateString) {
@@ -502,6 +554,7 @@ async function handleEdit(id, field, value) {
   };
 
   try {
+    if(id === "PUT_ITEM_ID_HERE") return;
     const response = await fetch(`${BACKEND_URL}/todo/${id}`, requestOptions);
     if (response.ok) {
       console.log(`Updated ${field} to ${value}`);
@@ -513,6 +566,19 @@ async function handleEdit(id, field, value) {
   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".date-input-containe r").forEach((container) => {
+    container.addEventListener("click", (event) => {
+      
+      const dateInput = container.querySelector("input[type='date']"); // Select the date input inside the container
+      if (dateInput) {
+        
+        dateInput.focus(); // Focus the input to open the calendar
+        dateInput.showPicker();
+      }
+    });
+  });
+});
 ////////////////////////////////////////////////การเพื่มข้อมูล//////////////////////////////////////////////////////////////
 document.getElementById("Add_todo").addEventListener("click", async () => {
   const title = document.getElementById("add-title").querySelector("input").value;
@@ -548,6 +614,8 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
       const result = await response.json();
       addRowToTable(result);
       clearInputFields();
+
+      attachCalendarIconListeners();
     } else {
       console.error("Failed to post data:", response.statusText);
     }
@@ -555,6 +623,8 @@ document.getElementById("Add_todo").addEventListener("click", async () => {
     console.error("Error:", error);
   }
 });
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -565,22 +635,30 @@ function clearInputFields() {
   document.querySelector("#add-date input[type='date']").value = "";
   document.querySelector("#add-start-date input[type='date']").value = "";
   document.getElementById("tag-container").innerHTML = '<input type="text" id="tag-input" placeholder="Add a tag and press Enter" />';
-  document.getElementById("status").value = "0";
-  document.getElementById("add-description").value = "";
+  document.getElementById("status").value = "scheduled";
+  document.querySelector("#add-description textarea").value = "";
+  
+}
+// Add event listener to calendar icons for dynamically created DOM
+function attachCalendarIconListeners() {
+  document.querySelectorAll(".date-input-container").forEach((container) => {
+    container.addEventListener("click", (event) => {
+      const dateInput = container.querySelector("#add-start-date input[type='date']");
+      if (dateInput) {
+        dateInput.focus();
+      }
+    });
+  });
 }
 
 
 
 
 
-
-
-
-
   // Array ของแท็กที่มีอยู่
+  //populateTags();
+  //let availableTags = console.log(Array.from(allTags));
   
-  let availableTags = getAllAvailableFilterTag();
-  console.log(availableTags);
 
     
   

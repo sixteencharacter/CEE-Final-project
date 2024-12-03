@@ -23,7 +23,7 @@
 
 
   <div class="container">
-    <div style="width:115%;margin-bottom: 10px;">
+    <div  class="Show_filter_Button">
       <button style="background-color: #964B00;" id="showCanvasButton">Show filter canvas</button>
     </div>
   
@@ -38,8 +38,8 @@
           <select id="filterStatus">
             <option value="">No Filters</option>
             <option value="scheduled">Scheduled</option>
-            <option value="In progress">In Progress</option>
-            <option value="Completed">Completed</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
           </select>
         </div>
       </div>
@@ -55,11 +55,11 @@
       </div>
       <div class="hstack">
         <div>
-          <label for="endDateFrom">End Date From:</label>
+          <label for="endDateFrom">Due Date From:</label>
           <input type="date" id="endDateFrom">
         </div>
         <div>
-          <label for="endDateTo">End Date To:</label>
+          <label for="endDateTo">Due Date To:</label>
           <input type="date" id="endDateTo">
         </div>
       </div>
@@ -83,12 +83,13 @@
       </div>
     </div>
     <div class="header">
-      <h1>🔥 Study Schedule</h1>
+      <h1>🔥 Group To Do</h1>
       <!-- <div class="tabs">
             <button class="tab">📅 Calendar</button>
             <button class="tab active">📋 Assignments</button>
           </div> -->
     </div>
+    
 
     <table class="schedule-table">
       <thead>
@@ -98,7 +99,7 @@
           <th>📅 Due Date</th>
           <th style="text-align: center;">Time Until Due Date</th>
           <th>📝 Tags</th>
-          <th>⭐ Progress</th>
+          <th>⭐Progress</th>
           <th>📘 Description</th>
           <th>Action</th>
         </tr>
@@ -109,14 +110,16 @@
           <td id="add-title"><input type="text"></td>
           <td id="add-start-date">
             <div class="date-input-container">
-              <input type="date" name="bday" />
               <span class="calendar-icon ">&#128197;</span>
+              <input type="date" name="bday" />
+              
             </div>
           </td>
           <td id="add-date">
             <div class="date-input-container">
-              <input type="date" name="bday" />
               <span class="calendar-icon ">&#128197;</span>
+              <input type="date" name="bday" />
+              
             </div>
           </td>
           <td id="add-due-date" ></td>
@@ -137,7 +140,7 @@
                 <option value="in_progress">In progress</option>
                 <option value="completed">Completed</option>
               </select></span></td>
-          <td id="add-description"><textarea></textarea></td>
+          <td id="add-description"><textarea class="add-description1"></textarea></td>
           <td></td>
         </tr>
       </tfoot>
@@ -145,6 +148,7 @@
     <div class="header">
       <div class="submits">
         <button class="submit" id="Add_todo">Add</button>
+        <button class="sortButton" onclick="location.reload()" >Sort</button>
       </div>
     </div>
   </div>

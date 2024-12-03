@@ -30,7 +30,7 @@ export const getAnFilter = async (req, res) => {
         if (req.query.tags) filter.tags = { $all: req.query.tags.split(",") };
 
         // Fetch filtered or all todos
-        const todos = await Todo.find({ ...filter, group: { _id: getGroupId(req) } });
+        const todos = await Todo.find({ ...filter, group: { _id: getGroupId(req) } }).sort({dueDate : 1});
         res.status(200).json(dateSimplifier(todos));
     } catch (error) {
         res.status(500).json({ success: false, reason: error.message });
