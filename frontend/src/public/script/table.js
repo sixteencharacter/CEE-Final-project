@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "./config.js";
-let availableTags;
+let availableTags = [];
 // Initialize headers for API requests
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -567,7 +567,7 @@ async function handleEdit(id, field, value) {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".date-input-containe r").forEach((container) => {
+  document.querySelectorAll(".date-input-container").forEach((container) => {
     container.addEventListener("click", (event) => {
       
       const dateInput = container.querySelector("input[type='date']"); // Select the date input inside the container
@@ -702,31 +702,36 @@ function attachCalendarIconListeners() {
     
       // วนลูปสร้างแท็กจาก availableTags
       
-      availableTags.forEach((tag) => {
-        const tagItem = document.createElement("div");
-        tagItem.classList.add("tag-item"); // เพิ่มคลาสสำหรับการตกแต่ง
-        tagItem.innerText = tag;
-    
-        // คลิกที่แท็กเพื่อเพิ่มใน selectedTags
-        tagItem.addEventListener("click", () => {
-          addTag(tag); // เพิ่มแท็กลงใน selectedTags
-          tagInput.value = ""; // ล้างค่าช่องกรอกหลังเลือก
-          tagList.style.display = "none"; // ซ่อน Dropdown หลังเลือกแท็ก
+      try {
+        availableTags.forEach((tag) => {
+          const tagItem = document.createElement("div");
+          tagItem.classList.add("tag-item"); // เพิ่มคลาสสำหรับการตกแต่ง
+          tagItem.innerText = tag;
+      
+          // คลิกที่แท็กเพื่อเพิ่มใน selectedTags
+          tagItem.addEventListener("click", () => {
+            addTag(tag); // เพิ่มแท็กลงใน selectedTags
+            tagInput.value = ""; // ล้างค่าช่องกรอกหลังเลือก
+            tagList.style.display = "none"; // ซ่อน Dropdown หลังเลือกแท็ก
+          });
+      
+          // เพิ่มแท็กเข้า Dropdown
+          tagList.appendChild(tagItem);
         });
-    
-        // เพิ่มแท็กเข้า Dropdown
-        tagList.appendChild(tagItem);
-      });
-      updateTagsInDatabase();
-    
-      // แสดง Dropdown
-      tagList.style.display = "block";
+        updateTagsInDatabase();
+      
+        // แสดง Dropdown
+        tagList.style.display = "block";
+      }
+      catch(e) {
+        console.log(e);
+      }
     }
     
 
     function handleTagInput() {
       const query = tagInput.value.toLowerCase();
-      const filteredTags = availableTags.filter((tag) =>
+      const filteredTags = (availableTags ?? Array.from([])).filter((tag) =>
         tag.toLowerCase().includes(query)
       );
     
@@ -758,7 +763,7 @@ function attachCalendarIconListeners() {
     function addTag(tag) {
       if (tag && !selectedTags.includes(tag)) {
         selectedTags.push(tag);
-        if (!availableTags.includes(tag)) {
+        if (!(availableTags ?? []).includes(tag)) {
           availableTags.push(tag); // เพิ่มแท็กใหม่ใน availableTags หากเป็นแท็กใหม่
         }
         renderTags();
