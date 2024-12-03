@@ -567,7 +567,7 @@ async function handleEdit(id, field, value) {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".date-input-containe r").forEach((container) => {
+  document.querySelectorAll(".date-input-container").forEach((container) => {
     container.addEventListener("click", (event) => {
       
       const dateInput = container.querySelector("input[type='date']"); // Select the date input inside the container
