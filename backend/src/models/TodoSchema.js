@@ -2,25 +2,25 @@ import mongoose from "mongoose";
 import Group from "./GroupSchema.js";
 
 const todoSchema = new mongoose.Schema({
-    title : {
-        type : String
+    title: {
+        type: String
     },
-    description : {
-        type : String
+    description: {
+        type: String
     },
-    dueDate : {
-        type : Date
+    dueDate: {
+        type: Date
     },
-    startDate : {
-        type : Date
+    startDate: {
+        type: Date
     },
-    tags : [String] ,
-    status : {
-        type : String
+    tags: [String],
+    status: {
+        type: String
     },
-    group : Group.schema
+    group: Group.schema
 })
 
-const Todo = mongoose.model("Todo",todoSchema);
+const Todo = mongoose.model("Todo", todoSchema);
 
 export default Todo;

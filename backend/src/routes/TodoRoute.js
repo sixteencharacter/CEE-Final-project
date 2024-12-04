@@ -3,10 +3,10 @@ import { createNewTodo, deleteTodo, getAnFilter, getTodoById, updateTodo } from 
 
 const router = express.Router();
 
-router.get("/",getAnFilter);
-router.get("/:id",getTodoById);
-router.post("/",createNewTodo);
-router.put("/:id",updateTodo);
-router.delete("/:id",deleteTodo);
+router.get("/", getAnFilter);
+router.get("/:id", getTodoById);
+router.post("/", createNewTodo);
+router.put("/:id", updateTodo);
+router.delete("/:id", deleteTodo);
 
 export default router;

@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/user",UserRouter);
-app.use("/group",GroupRouter);
-app.use("/todo",TodoRouter);
+app.use("/user", UserRouter);
+app.use("/group", GroupRouter);
+app.use("/todo", TodoRouter);
 
 export default app;

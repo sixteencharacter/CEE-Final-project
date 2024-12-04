@@ -8,22 +8,22 @@ export async function getKey() {
     return await crypto.subtle.importKey(
         "raw",
         keyData,
-        {name : "HMAC" , hash : "SHA-256"},
+        { name: "HMAC", hash: "SHA-256" },
         false,
-        ["sign","verify"]
+        ["sign", "verify"]
     );
 }
 
-export async function hashPassword(password , salt) {
+export async function hashPassword(password, salt) {
     const key = await getKey();
     const encoder = new TextEncoder();
     const data = encoder.encode(salt + password);
-    const hashbuffer = await crypto.subtle.sign("HMAC",key,data);
+    const hashbuffer = await crypto.subtle.sign("HMAC", key, data);
     return Buffer.from(hashbuffer).toString("hex");
 }
 
-export async function validatePassword(password,salt,hashed_password) {
-    const hashed_input = await hashPassword(password,salt);
+export async function validatePassword(password, salt, hashed_password) {
+    const hashed_input = await hashPassword(password, salt);
     return hashed_input === hashed_password;
 }
 

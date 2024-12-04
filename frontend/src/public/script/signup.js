@@ -8,12 +8,12 @@ const doRegister = async () => {
     const email = document.getElementsByName("email")[0].value
     const password = document.getElementsByName("password")[0].value
     const re_password = document.getElementsByName("re_password")[0].value
-    
-    if(password != re_password) {
-        displayAlertModal("Error","Password didn't match , please try again");
+
+    if (password != re_password) {
+        displayAlertModal("Error", "Password didn't match , please try again");
         return;
     }
-    
+
     const raw = JSON.stringify({
         "email": `${email}`,
         "password": `${password}`
@@ -28,31 +28,31 @@ const doRegister = async () => {
 
     try {
         const ret = (await fetch(`${BACKEND_URL}/user/register`, requestOptions));
-        if(ret.ok) {
+        if (ret.ok) {
             window.location.replace("/login.html");
         }
         else {
-            displayAlertModal("Error",(await ret.json()).reason);
+            displayAlertModal("Error", (await ret.json()).reason);
         }
     }
     catch {
-        displayAlertModal("Error","UnExpected Error occurred , please try again later");
+        displayAlertModal("Error", "UnExpected Error occurred , please try again later");
     }
 }
 
-document.addEventListener("DOMContentLoaded",async ()=>{
-    
-    document.getElementById("registerButton").addEventListener("click",async ()=>{
+document.addEventListener("DOMContentLoaded", async () => {
+
+    document.getElementById("registerButton").addEventListener("click", async () => {
         await doRegister();
     })
 
     closeModal();
 
-    document.getElementsByClassName("close-btn")[0].addEventListener("click",()=>{
+    document.getElementsByClassName("close-btn")[0].addEventListener("click", () => {
         closeModal();
     })
 
-    document.getElementsByClassName("close-modal")[0].addEventListener("click",()=>{
+    document.getElementsByClassName("close-modal")[0].addEventListener("click", () => {
         closeModal();
     })
 

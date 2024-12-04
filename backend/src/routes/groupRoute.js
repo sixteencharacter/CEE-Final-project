@@ -3,6 +3,6 @@ import { joinGroup } from "../controller/groupController.js";
 
 const router = express.Router();
 
-router.post("/join",joinGroup);
+router.post("/join", joinGroup);
 
 export default router;
